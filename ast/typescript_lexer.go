@@ -1,3 +1,5 @@
+// Code generated from /home/smortezasa/go/src/github.com/seyyedaghaei/ts2go/grammars/TypeScriptLexer.g4 by ANTLR 4.9.1. DO NOT EDIT.
+
 package ast
 
 import (
@@ -879,7 +881,7 @@ var lexerRuleNames = []string{
 }
 
 type TypeScriptLexer struct {
-	TypeScriptLexerBase
+	*TypeScriptLexerBase
 	channelNames []string
 	modeNames    []string
 	// TODO: EOF string
@@ -1081,7 +1083,7 @@ func (l *TypeScriptLexer) Action(localctx antlr.RuleContext, ruleIndex, actionIn
 func (l *TypeScriptLexer) OpenBrace_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 0:
-		l.ProcessOpenBrace()
+		this.ProcessOpenBrace()
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -1090,7 +1092,7 @@ func (l *TypeScriptLexer) OpenBrace_Action(localctx antlr.RuleContext, actionInd
 func (l *TypeScriptLexer) CloseBrace_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 1:
-		l.ProcessCloseBrace()
+		this.ProcessCloseBrace()
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -1099,7 +1101,7 @@ func (l *TypeScriptLexer) CloseBrace_Action(localctx antlr.RuleContext, actionIn
 func (l *TypeScriptLexer) StringLiteral_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 2:
-		l.ProcessStringLiteral()
+		this.ProcessStringLiteral()
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -1108,7 +1110,7 @@ func (l *TypeScriptLexer) StringLiteral_Action(localctx antlr.RuleContext, actio
 func (l *TypeScriptLexer) BackTick_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 3:
-		l.IncreaseTemplateDepth()
+		this.IncreaseTemplateDepth()
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -1117,7 +1119,7 @@ func (l *TypeScriptLexer) BackTick_Action(localctx antlr.RuleContext, actionInde
 func (l *TypeScriptLexer) BackTickInside_Action(localctx antlr.RuleContext, actionIndex int) {
 	switch actionIndex {
 	case 4:
-		l.DecreaseTemplateDepth()
+		this.DecreaseTemplateDepth()
 
 	default:
 		panic("No registered action for: " + fmt.Sprint(actionIndex))
@@ -1143,7 +1145,7 @@ func (l *TypeScriptLexer) Sempred(localctx antlr.RuleContext, ruleIndex, predInd
 func (p *TypeScriptLexer) RegularExpressionLiteral_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 0:
-		return p.IsRegexPossible()
+		return this.IsRegexPossible()
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
@@ -1153,7 +1155,7 @@ func (p *TypeScriptLexer) RegularExpressionLiteral_Sempred(localctx antlr.RuleCo
 func (p *TypeScriptLexer) TemplateCloseBrace_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 1:
-		return p.IsInTemplateString()
+		return this.IsInTemplateString()
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
@@ -1163,7 +1165,7 @@ func (p *TypeScriptLexer) TemplateCloseBrace_Sempred(localctx antlr.RuleContext,
 func (p *TypeScriptLexer) OctalIntegerLiteral_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 2:
-		return !p.IsStrictMode()
+		return !this.IsStrictMode()
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))

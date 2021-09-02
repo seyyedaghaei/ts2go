@@ -1,3 +1,5 @@
+// Code generated from /home/smortezasa/go/src/github.com/seyyedaghaei/ts2go/grammars/TypeScriptParser.g4 by ANTLR 4.9.1. DO NOT EDIT.
+
 package ast // TypeScriptParser
 import "github.com/antlr/antlr4/runtime/Go/antlr"
 
@@ -215,9 +217,6 @@ type TypeScriptParserVisitor interface {
 	// Visit a parse tree produced by TypeScriptParser#program.
 	VisitProgram(ctx *ProgramContext) interface{}
 
-	// Visit a parse tree produced by TypeScriptParser#sourceElement.
-	VisitSourceElement(ctx *SourceElementContext) interface{}
-
 	// Visit a parse tree produced by TypeScriptParser#statement.
 	VisitStatement(ctx *StatementContext) interface{}
 
@@ -397,9 +396,6 @@ type TypeScriptParserVisitor interface {
 
 	// Visit a parse tree produced by TypeScriptParser#functionBody.
 	VisitFunctionBody(ctx *FunctionBodyContext) interface{}
-
-	// Visit a parse tree produced by TypeScriptParser#sourceElements.
-	VisitSourceElements(ctx *SourceElementsContext) interface{}
 
 	// Visit a parse tree produced by TypeScriptParser#arrayLiteral.
 	VisitArrayLiteral(ctx *ArrayLiteralContext) interface{}

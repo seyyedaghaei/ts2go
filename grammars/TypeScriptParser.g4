@@ -325,11 +325,7 @@ decoratorCallExpression
 
 // ECMAPart
 program
-    : sourceElements? EOF
-    ;
-
-sourceElement
-    : Export? statement
+    : statementList? EOF
     ;
 
 statement
@@ -587,11 +583,7 @@ lastFormalParameterArg                        // ECMAScript 6: Rest Parameter
     ;
 
 functionBody
-    : sourceElements?
-    ;
-
-sourceElements
-    : sourceElement+
+    : statementList?
     ;
 
 arrayLiteral

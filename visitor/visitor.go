@@ -1,865 +1,859 @@
+// Code generated from /home/smortezasa/go/src/github.com/seyyedaghaei/ts2go/grammars/TypeScriptParser.g4 by ANTLR 4.9.1. DO NOT EDIT.
+
 package ast // TypeScriptParser
 import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/seyyedaghaei/ts2go/ast"
 )
 
-type TypeScriptVisitor struct {
+type BaseTypeScriptParserVisitor struct {
 	*antlr.BaseParseTreeVisitor
 }
 
-func (v *TypeScriptVisitor) VisitInitializer(ctx *ast.InitializerContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitInitializer(ctx *ast.InitializerContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBindingPattern(ctx *ast.BindingPatternContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBindingPattern(ctx *ast.BindingPatternContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeParameters(ctx *ast.TypeParametersContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeParameters(ctx *ast.TypeParametersContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeParameterList(ctx *ast.TypeParameterListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeParameterList(ctx *ast.TypeParameterListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeParameter(ctx *ast.TypeParameterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeParameter(ctx *ast.TypeParameterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitConstraint(ctx *ast.ConstraintContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitConstraint(ctx *ast.ConstraintContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeArguments(ctx *ast.TypeArgumentsContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeArguments(ctx *ast.TypeArgumentsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeArgumentList(ctx *ast.TypeArgumentListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeArgumentList(ctx *ast.TypeArgumentListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeArgument(ctx *ast.TypeArgumentContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeArgument(ctx *ast.TypeArgumentContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitType_(ctx *ast.Type_Context) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitType_(ctx *ast.Type_Context) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIntersection(ctx *ast.IntersectionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIntersection(ctx *ast.IntersectionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPrimary(ctx *ast.PrimaryContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPrimary(ctx *ast.PrimaryContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitUnion(ctx *ast.UnionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitUnion(ctx *ast.UnionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRedefinitionOfType(ctx *ast.RedefinitionOfTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRedefinitionOfType(ctx *ast.RedefinitionOfTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPredefinedPrimType(ctx *ast.PredefinedPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPredefinedPrimType(ctx *ast.PredefinedPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrayPrimType(ctx *ast.ArrayPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrayPrimType(ctx *ast.ArrayPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitParenthesizedPrimType(ctx *ast.ParenthesizedPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitParenthesizedPrimType(ctx *ast.ParenthesizedPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitThisPrimType(ctx *ast.ThisPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitThisPrimType(ctx *ast.ThisPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTuplePrimType(ctx *ast.TuplePrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTuplePrimType(ctx *ast.TuplePrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitObjectPrimType(ctx *ast.ObjectPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitObjectPrimType(ctx *ast.ObjectPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitReferencePrimType(ctx *ast.ReferencePrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitReferencePrimType(ctx *ast.ReferencePrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitQueryPrimType(ctx *ast.QueryPrimTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitQueryPrimType(ctx *ast.QueryPrimTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPredefinedType(ctx *ast.PredefinedTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPredefinedType(ctx *ast.PredefinedTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeReference(ctx *ast.TypeReferenceContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeReference(ctx *ast.TypeReferenceContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNestedTypeGeneric(ctx *ast.NestedTypeGenericContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNestedTypeGeneric(ctx *ast.NestedTypeGenericContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeGeneric(ctx *ast.TypeGenericContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeGeneric(ctx *ast.TypeGenericContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeIncludeGeneric(ctx *ast.TypeIncludeGenericContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeIncludeGeneric(ctx *ast.TypeIncludeGenericContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeName(ctx *ast.TypeNameContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeName(ctx *ast.TypeNameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitObjectType(ctx *ast.ObjectTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitObjectType(ctx *ast.ObjectTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeBody(ctx *ast.TypeBodyContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeBody(ctx *ast.TypeBodyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeMemberList(ctx *ast.TypeMemberListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeMemberList(ctx *ast.TypeMemberListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeMember(ctx *ast.TypeMemberContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeMember(ctx *ast.TypeMemberContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrayType(ctx *ast.ArrayTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrayType(ctx *ast.ArrayTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTupleType(ctx *ast.TupleTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTupleType(ctx *ast.TupleTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTupleElementTypes(ctx *ast.TupleElementTypesContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTupleElementTypes(ctx *ast.TupleElementTypesContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFunctionType(ctx *ast.FunctionTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFunctionType(ctx *ast.FunctionTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitConstructorType(ctx *ast.ConstructorTypeContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitConstructorType(ctx *ast.ConstructorTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeQuery(ctx *ast.TypeQueryContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeQuery(ctx *ast.TypeQueryContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeQueryExpression(ctx *ast.TypeQueryExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeQueryExpression(ctx *ast.TypeQueryExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertySignatur(ctx *ast.PropertySignaturContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertySignatur(ctx *ast.PropertySignaturContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeAnnotation(ctx *ast.TypeAnnotationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeAnnotation(ctx *ast.TypeAnnotationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCallSignature(ctx *ast.CallSignatureContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCallSignature(ctx *ast.CallSignatureContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitParameterList(ctx *ast.ParameterListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitParameterList(ctx *ast.ParameterListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRequiredParameterList(ctx *ast.RequiredParameterListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRequiredParameterList(ctx *ast.RequiredParameterListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitParameter(ctx *ast.ParameterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitParameter(ctx *ast.ParameterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitOptionalParameter(ctx *ast.OptionalParameterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitOptionalParameter(ctx *ast.OptionalParameterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRestParameter(ctx *ast.RestParameterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRestParameter(ctx *ast.RestParameterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRequiredParameter(ctx *ast.RequiredParameterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRequiredParameter(ctx *ast.RequiredParameterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAccessibilityModifier(ctx *ast.AccessibilityModifierContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAccessibilityModifier(ctx *ast.AccessibilityModifierContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIdentifierOrPattern(ctx *ast.IdentifierOrPatternContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIdentifierOrPattern(ctx *ast.IdentifierOrPatternContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitConstructSignature(ctx *ast.ConstructSignatureContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitConstructSignature(ctx *ast.ConstructSignatureContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIndexSignature(ctx *ast.IndexSignatureContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIndexSignature(ctx *ast.IndexSignatureContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMethodSignature(ctx *ast.MethodSignatureContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMethodSignature(ctx *ast.MethodSignatureContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeAliasDeclaration(ctx *ast.TypeAliasDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeAliasDeclaration(ctx *ast.TypeAliasDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitConstructorDeclaration(ctx *ast.ConstructorDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitConstructorDeclaration(ctx *ast.ConstructorDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitInterfaceDeclaration(ctx *ast.InterfaceDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitInterfaceDeclaration(ctx *ast.InterfaceDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitInterfaceExtendsClause(ctx *ast.InterfaceExtendsClauseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitInterfaceExtendsClause(ctx *ast.InterfaceExtendsClauseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassOrInterfaceTypeList(ctx *ast.ClassOrInterfaceTypeListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassOrInterfaceTypeList(ctx *ast.ClassOrInterfaceTypeListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEnumDeclaration(ctx *ast.EnumDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEnumDeclaration(ctx *ast.EnumDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEnumBody(ctx *ast.EnumBodyContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEnumBody(ctx *ast.EnumBodyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEnumMemberList(ctx *ast.EnumMemberListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEnumMemberList(ctx *ast.EnumMemberListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEnumMember(ctx *ast.EnumMemberContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEnumMember(ctx *ast.EnumMemberContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNamespaceDeclaration(ctx *ast.NamespaceDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNamespaceDeclaration(ctx *ast.NamespaceDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNamespaceName(ctx *ast.NamespaceNameContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNamespaceName(ctx *ast.NamespaceNameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitImportAliasDeclaration(ctx *ast.ImportAliasDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitImportAliasDeclaration(ctx *ast.ImportAliasDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDecoratorList(ctx *ast.DecoratorListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDecoratorList(ctx *ast.DecoratorListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDecorator(ctx *ast.DecoratorContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDecorator(ctx *ast.DecoratorContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDecoratorMemberExpression(ctx *ast.DecoratorMemberExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDecoratorMemberExpression(ctx *ast.DecoratorMemberExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDecoratorCallExpression(ctx *ast.DecoratorCallExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDecoratorCallExpression(ctx *ast.DecoratorCallExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitProgram(ctx *ast.ProgramContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitProgram(ctx *ast.ProgramContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitSourceElement(ctx *ast.SourceElementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitStatement(ctx *ast.StatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitStatement(ctx *ast.StatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBlock(ctx *ast.BlockContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBlock(ctx *ast.BlockContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitStatementList(ctx *ast.StatementListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitStatementList(ctx *ast.StatementListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAbstractDeclaration(ctx *ast.AbstractDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAbstractDeclaration(ctx *ast.AbstractDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitImportStatement(ctx *ast.ImportStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitImportStatement(ctx *ast.ImportStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFromBlock(ctx *ast.FromBlockContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFromBlock(ctx *ast.FromBlockContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMultipleImportStatement(ctx *ast.MultipleImportStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMultipleImportStatement(ctx *ast.MultipleImportStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitExportStatement(ctx *ast.ExportStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitExportStatement(ctx *ast.ExportStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitVariableDeclarationList(ctx *ast.VariableDeclarationListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitVariableDeclarationList(ctx *ast.VariableDeclarationListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitVariableDeclaration(ctx *ast.VariableDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitVariableDeclaration(ctx *ast.VariableDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEmptyStatement(ctx *ast.EmptyStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEmptyStatement(ctx *ast.EmptyStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitExpressionStatement(ctx *ast.ExpressionStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitExpressionStatement(ctx *ast.ExpressionStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIfStatement(ctx *ast.IfStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIfStatement(ctx *ast.IfStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDoStatement(ctx *ast.DoStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDoStatement(ctx *ast.DoStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitWhileStatement(ctx *ast.WhileStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitWhileStatement(ctx *ast.WhileStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitForStatement(ctx *ast.ForStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitForStatement(ctx *ast.ForStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitForVarStatement(ctx *ast.ForVarStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitForVarStatement(ctx *ast.ForVarStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitForInStatement(ctx *ast.ForInStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitForInStatement(ctx *ast.ForInStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitForVarInStatement(ctx *ast.ForVarInStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitForVarInStatement(ctx *ast.ForVarInStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitVarModifier(ctx *ast.VarModifierContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitVarModifier(ctx *ast.VarModifierContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitContinueStatement(ctx *ast.ContinueStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitContinueStatement(ctx *ast.ContinueStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBreakStatement(ctx *ast.BreakStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBreakStatement(ctx *ast.BreakStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitReturnStatement(ctx *ast.ReturnStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitReturnStatement(ctx *ast.ReturnStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitYieldStatement(ctx *ast.YieldStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitYieldStatement(ctx *ast.YieldStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitWithStatement(ctx *ast.WithStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitWithStatement(ctx *ast.WithStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitSwitchStatement(ctx *ast.SwitchStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitSwitchStatement(ctx *ast.SwitchStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCaseBlock(ctx *ast.CaseBlockContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCaseBlock(ctx *ast.CaseBlockContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCaseClauses(ctx *ast.CaseClausesContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCaseClauses(ctx *ast.CaseClausesContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCaseClause(ctx *ast.CaseClauseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCaseClause(ctx *ast.CaseClauseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDefaultClause(ctx *ast.DefaultClauseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDefaultClause(ctx *ast.DefaultClauseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLabelledStatement(ctx *ast.LabelledStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLabelledStatement(ctx *ast.LabelledStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitThrowStatement(ctx *ast.ThrowStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitThrowStatement(ctx *ast.ThrowStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTryStatement(ctx *ast.TryStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTryStatement(ctx *ast.TryStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCatchProduction(ctx *ast.CatchProductionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCatchProduction(ctx *ast.CatchProductionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFinallyProduction(ctx *ast.FinallyProductionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFinallyProduction(ctx *ast.FinallyProductionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDebuggerStatement(ctx *ast.DebuggerStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDebuggerStatement(ctx *ast.DebuggerStatementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFunctionDeclaration(ctx *ast.FunctionDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFunctionDeclaration(ctx *ast.FunctionDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassDeclaration(ctx *ast.ClassDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassDeclaration(ctx *ast.ClassDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassHeritage(ctx *ast.ClassHeritageContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassHeritage(ctx *ast.ClassHeritageContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassTail(ctx *ast.ClassTailContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassTail(ctx *ast.ClassTailContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassExtendsClause(ctx *ast.ClassExtendsClauseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassExtendsClause(ctx *ast.ClassExtendsClauseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitImplementsClause(ctx *ast.ImplementsClauseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitImplementsClause(ctx *ast.ImplementsClauseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassElement(ctx *ast.ClassElementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassElement(ctx *ast.ClassElementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyDeclarationExpression(ctx *ast.PropertyDeclarationExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyDeclarationExpression(ctx *ast.PropertyDeclarationExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMethodDeclarationExpression(ctx *ast.MethodDeclarationExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMethodDeclarationExpression(ctx *ast.MethodDeclarationExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGetterSetterDeclarationExpression(ctx *ast.GetterSetterDeclarationExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGetterSetterDeclarationExpression(ctx *ast.GetterSetterDeclarationExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAbstractMemberDeclaration(ctx *ast.AbstractMemberDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAbstractMemberDeclaration(ctx *ast.AbstractMemberDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyMemberBase(ctx *ast.PropertyMemberBaseContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyMemberBase(ctx *ast.PropertyMemberBaseContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIndexMemberDeclaration(ctx *ast.IndexMemberDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIndexMemberDeclaration(ctx *ast.IndexMemberDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorMethod(ctx *ast.GeneratorMethodContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorMethod(ctx *ast.GeneratorMethodContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorFunctionDeclaration(ctx *ast.GeneratorFunctionDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorFunctionDeclaration(ctx *ast.GeneratorFunctionDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorBlock(ctx *ast.GeneratorBlockContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorBlock(ctx *ast.GeneratorBlockContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorDefinition(ctx *ast.GeneratorDefinitionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorDefinition(ctx *ast.GeneratorDefinitionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIteratorBlock(ctx *ast.IteratorBlockContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIteratorBlock(ctx *ast.IteratorBlockContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIteratorDefinition(ctx *ast.IteratorDefinitionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIteratorDefinition(ctx *ast.IteratorDefinitionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFormalParameterList(ctx *ast.FormalParameterListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFormalParameterList(ctx *ast.FormalParameterListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFormalParameterArg(ctx *ast.FormalParameterArgContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFormalParameterArg(ctx *ast.FormalParameterArgContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLastFormalParameterArg(ctx *ast.LastFormalParameterArgContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLastFormalParameterArg(ctx *ast.LastFormalParameterArgContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFunctionBody(ctx *ast.FunctionBodyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFunctionBody(ctx *ast.FunctionBodyContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrayLiteral(ctx *ast.ArrayLiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitSourceElements(ctx *ast.SourceElementsContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitElementList(ctx *ast.ElementListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrayLiteral(ctx *ast.ArrayLiteralContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrayElement(ctx *ast.ArrayElementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitElementList(ctx *ast.ElementListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitObjectLiteral(ctx *ast.ObjectLiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrayElement(ctx *ast.ArrayElementContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyExpressionAssignment(ctx *ast.PropertyExpressionAssignmentContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitObjectLiteral(ctx *ast.ObjectLiteralContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitComputedPropertyExpressionAssignment(ctx *ast.ComputedPropertyExpressionAssignmentContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyExpressionAssignment(ctx *ast.PropertyExpressionAssignmentContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyGetter(ctx *ast.PropertyGetterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitComputedPropertyExpressionAssignment(ctx *ast.ComputedPropertyExpressionAssignmentContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertySetter(ctx *ast.PropertySetterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyGetter(ctx *ast.PropertyGetterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMethodProperty(ctx *ast.MethodPropertyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertySetter(ctx *ast.PropertySetterContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyShorthand(ctx *ast.PropertyShorthandContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMethodProperty(ctx *ast.MethodPropertyContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRestParameterInObject(ctx *ast.RestParameterInObjectContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyShorthand(ctx *ast.PropertyShorthandContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRestParameterInObject(ctx *ast.RestParameterInObjectContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitSetAccessor(ctx *ast.SetAccessorContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPropertyName(ctx *ast.PropertyNameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitSetAccessor(ctx *ast.SetAccessorContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArguments(ctx *ast.ArgumentsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPropertyName(ctx *ast.PropertyNameContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArgumentList(ctx *ast.ArgumentListContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArguments(ctx *ast.ArgumentsContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArgument(ctx *ast.ArgumentContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArgumentList(ctx *ast.ArgumentListContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitExpressionSequence(ctx *ast.ExpressionSequenceContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArgument(ctx *ast.ArgumentContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFunctionExpressionDeclaration(ctx *ast.FunctionExpressionDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitExpressionSequence(ctx *ast.ExpressionSequenceContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTemplateStringExpression(ctx *ast.TemplateStringExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFunctionExpressionDeclaration(ctx *ast.FunctionExpressionDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTernaryExpression(ctx *ast.TernaryExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTemplateStringExpression(ctx *ast.TemplateStringExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLogicalAndExpression(ctx *ast.LogicalAndExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTernaryExpression(ctx *ast.TernaryExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorsExpression(ctx *ast.GeneratorsExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLogicalAndExpression(ctx *ast.LogicalAndExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPreIncrementExpression(ctx *ast.PreIncrementExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorsExpression(ctx *ast.GeneratorsExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitObjectLiteralExpression(ctx *ast.ObjectLiteralExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPreIncrementExpression(ctx *ast.PreIncrementExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitInExpression(ctx *ast.InExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitObjectLiteralExpression(ctx *ast.ObjectLiteralExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLogicalOrExpression(ctx *ast.LogicalOrExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitInExpression(ctx *ast.InExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGenericTypes(ctx *ast.GenericTypesContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLogicalOrExpression(ctx *ast.LogicalOrExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNotExpression(ctx *ast.NotExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGenericTypes(ctx *ast.GenericTypesContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPreDecreaseExpression(ctx *ast.PreDecreaseExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNotExpression(ctx *ast.NotExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArgumentsExpression(ctx *ast.ArgumentsExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPreDecreaseExpression(ctx *ast.PreDecreaseExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitThisExpression(ctx *ast.ThisExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArgumentsExpression(ctx *ast.ArgumentsExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitFunctionExpression(ctx *ast.FunctionExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitThisExpression(ctx *ast.ThisExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitUnaryMinusExpression(ctx *ast.UnaryMinusExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitFunctionExpression(ctx *ast.FunctionExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAssignmentExpression(ctx *ast.AssignmentExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitUnaryMinusExpression(ctx *ast.UnaryMinusExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPostDecreaseExpression(ctx *ast.PostDecreaseExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAssignmentExpression(ctx *ast.AssignmentExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTypeofExpression(ctx *ast.TypeofExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPostDecreaseExpression(ctx *ast.PostDecreaseExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitInstanceofExpression(ctx *ast.InstanceofExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTypeofExpression(ctx *ast.TypeofExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitUnaryPlusExpression(ctx *ast.UnaryPlusExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitInstanceofExpression(ctx *ast.InstanceofExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitDeleteExpression(ctx *ast.DeleteExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitUnaryPlusExpression(ctx *ast.UnaryPlusExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGeneratorsFunctionExpression(ctx *ast.GeneratorsFunctionExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitDeleteExpression(ctx *ast.DeleteExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrowFunctionExpression(ctx *ast.ArrowFunctionExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGeneratorsFunctionExpression(ctx *ast.GeneratorsFunctionExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIteratorsExpression(ctx *ast.IteratorsExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrowFunctionExpression(ctx *ast.ArrowFunctionExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEqualityExpression(ctx *ast.EqualityExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIteratorsExpression(ctx *ast.IteratorsExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBitXOrExpression(ctx *ast.BitXOrExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEqualityExpression(ctx *ast.EqualityExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitCastAsExpression(ctx *ast.CastAsExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBitXOrExpression(ctx *ast.BitXOrExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitSuperExpression(ctx *ast.SuperExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitCastAsExpression(ctx *ast.CastAsExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMultiplicativeExpression(ctx *ast.MultiplicativeExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitSuperExpression(ctx *ast.SuperExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBitShiftExpression(ctx *ast.BitShiftExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMultiplicativeExpression(ctx *ast.MultiplicativeExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitParenthesizedExpression(ctx *ast.ParenthesizedExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBitShiftExpression(ctx *ast.BitShiftExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAdditiveExpression(ctx *ast.AdditiveExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitParenthesizedExpression(ctx *ast.ParenthesizedExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitRelationalExpression(ctx *ast.RelationalExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAdditiveExpression(ctx *ast.AdditiveExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitPostIncrementExpression(ctx *ast.PostIncrementExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitRelationalExpression(ctx *ast.RelationalExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitYieldExpression(ctx *ast.YieldExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitPostIncrementExpression(ctx *ast.PostIncrementExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBitNotExpression(ctx *ast.BitNotExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitYieldExpression(ctx *ast.YieldExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNewExpression(ctx *ast.NewExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBitNotExpression(ctx *ast.BitNotExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLiteralExpression(ctx *ast.LiteralExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNewExpression(ctx *ast.NewExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrayLiteralExpression(ctx *ast.ArrayLiteralExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLiteralExpression(ctx *ast.LiteralExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMemberDotExpression(ctx *ast.MemberDotExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrayLiteralExpression(ctx *ast.ArrayLiteralExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitClassExpression(ctx *ast.ClassExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMemberDotExpression(ctx *ast.MemberDotExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitMemberIndexExpression(ctx *ast.MemberIndexExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitClassExpression(ctx *ast.ClassExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIdentifierExpression(ctx *ast.IdentifierExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitMemberIndexExpression(ctx *ast.MemberIndexExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBitAndExpression(ctx *ast.BitAndExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIdentifierExpression(ctx *ast.IdentifierExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitBitOrExpression(ctx *ast.BitOrExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBitAndExpression(ctx *ast.BitAndExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAssignmentOperatorExpression(ctx *ast.AssignmentOperatorExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitBitOrExpression(ctx *ast.BitOrExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitVoidExpression(ctx *ast.VoidExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAssignmentOperatorExpression(ctx *ast.AssignmentOperatorExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAsExpression(ctx *ast.AsExpressionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitVoidExpression(ctx *ast.VoidExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrowFunctionDeclaration(ctx *ast.ArrowFunctionDeclarationContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAsExpression(ctx *ast.AsExpressionContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrowFunctionParameters(ctx *ast.ArrowFunctionParametersContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrowFunctionDeclaration(ctx *ast.ArrowFunctionDeclarationContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitArrowFunctionBody(ctx *ast.ArrowFunctionBodyContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrowFunctionParameters(ctx *ast.ArrowFunctionParametersContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitAssignmentOperator(ctx *ast.AssignmentOperatorContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitArrowFunctionBody(ctx *ast.ArrowFunctionBodyContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitLiteral(ctx *ast.LiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitAssignmentOperator(ctx *ast.AssignmentOperatorContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTemplateStringLiteral(ctx *ast.TemplateStringLiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitLiteral(ctx *ast.LiteralContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitTemplateStringAtom(ctx *ast.TemplateStringAtomContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTemplateStringLiteral(ctx *ast.TemplateStringLiteralContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitNumericLiteral(ctx *ast.NumericLiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitTemplateStringAtom(ctx *ast.TemplateStringAtomContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIdentifierName(ctx *ast.IdentifierNameContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitNumericLiteral(ctx *ast.NumericLiteralContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitIdentifierOrKeyWord(ctx *ast.IdentifierOrKeyWordContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIdentifierName(ctx *ast.IdentifierNameContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitReservedWord(ctx *ast.ReservedWordContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitIdentifierOrKeyWord(ctx *ast.IdentifierOrKeyWordContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitKeyword(ctx *ast.KeywordContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitReservedWord(ctx *ast.ReservedWordContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitGetter(ctx *ast.GetterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitKeyword(ctx *ast.KeywordContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitSetter(ctx *ast.SetterContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitGetter(ctx *ast.GetterContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *TypeScriptVisitor) VisitSetter(ctx *ast.SetterContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *TypeScriptVisitor) VisitEos(ctx *ast.EosContext) interface{} {
+func (v *BaseTypeScriptParserVisitor) VisitEos(ctx *ast.EosContext) interface{} {
 	return v.VisitChildren(ctx)
 }
