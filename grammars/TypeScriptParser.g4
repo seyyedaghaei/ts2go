@@ -357,7 +357,6 @@ statement
     | typeAliasDeclaration //ADDED
     | enumDeclaration      //ADDED
     | expressionStatement
-    | Export statement
     ;
 
 block
