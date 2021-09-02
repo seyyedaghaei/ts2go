@@ -10051,13 +10051,6 @@ type StatementContext struct {
 	parser antlr.Parser
 }
 
-func NewEmptyStatementContext() *StatementContext {
-	var p = new(StatementContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = TypeScriptParserRULE_statement
-	return p
-}
-
 func (*StatementContext) IsStatementContext() {}
 
 func NewStatementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatementContext {

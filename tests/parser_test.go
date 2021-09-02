@@ -18,14 +18,9 @@ func readParser(file string) *ast.TypeScriptParser {
 	return p
 }
 
-func TestEmpty(t *testing.T) {
+func TestParser(t *testing.T) {
 	parser := readParser("empty.ts")
 	if parser == nil {
 		t.Fail()
-	} else {
-		tree := parser.Program()
-		if tree == nil {
-			t.Fail()
-		}
 	}
 }

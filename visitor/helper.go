@@ -1,4 +1,4 @@
-package ast
+package visitor
 
 import "github.com/antlr/antlr4/runtime/Go/antlr"
 

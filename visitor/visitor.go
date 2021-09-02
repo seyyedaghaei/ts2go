@@ -1,4 +1,4 @@
-package ast // TypeScriptParser
+package visitor // TypeScriptParser
 import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/seyyedaghaei/ts2go/ast"
@@ -286,7 +286,11 @@ func (v *TypeScriptVisitor) VisitDecoratorCallExpression(ctx *ast.DecoratorCallE
 }
 
 func (v *TypeScriptVisitor) VisitProgram(ctx *ast.ProgramContext) interface{} {
-	return &elements.Program{Statements: ctx.StatementList().Accept(v).([]elements.Statement)}
+	statements := make([]elements.Statement, 0)
+	if statementList := ctx.StatementList(); statementList != nil {
+		statements = statementList.Accept(v).([]elements.Statement)
+	}
+	return &elements.Program{Statements: statements}
 }
 
 func (v *TypeScriptVisitor) VisitStatement(ctx *ast.StatementContext) interface{} {
@@ -319,12 +323,15 @@ func (v *TypeScriptVisitor) VisitStatement(ctx *ast.StatementContext) interface{
 		ctx.TypeAliasDeclaration(),
 		ctx.EnumDeclaration(),
 		ctx.ExpressionStatement(),
-		)
+	)
+	if statement == nil {
+		return statement
+	}
 	return v.VisitChildren(ctx)
 }
 
 func (v *TypeScriptVisitor) VisitBlock(ctx *ast.BlockContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Block{Statements: ctx.StatementList().Accept(v).([]elements.Statement)}
 }
 
 func (v *TypeScriptVisitor) VisitStatementList(ctx *ast.StatementListContext) interface{} {
@@ -367,8 +374,8 @@ func (v *TypeScriptVisitor) VisitVariableDeclaration(ctx *ast.VariableDeclaratio
 	return v.VisitChildren(ctx)
 }
 
-func (v *TypeScriptVisitor) VisitEmptyStatement(ctx *ast.EmptyStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+func (v *TypeScriptVisitor) VisitEmptyStatement(_ *ast.EmptyStatementContext) interface{} {
+	return &elements.Empty{}
 }
 
 func (v *TypeScriptVisitor) VisitExpressionStatement(ctx *ast.ExpressionStatementContext) interface{} {
