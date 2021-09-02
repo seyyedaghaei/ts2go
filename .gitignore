@@ -31,4 +31,4 @@
 !.vscode/extensions.json
 
 # Grammars
-/grammars
+#/grammars
