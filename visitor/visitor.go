@@ -415,23 +415,38 @@ func (v *TypeScriptVisitor) VisitVarModifier(ctx *ast.VarModifierContext) interf
 }
 
 func (v *TypeScriptVisitor) VisitContinueStatement(ctx *ast.ContinueStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Continue{}
 }
 
 func (v *TypeScriptVisitor) VisitBreakStatement(ctx *ast.BreakStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Break{}
 }
 
 func (v *TypeScriptVisitor) VisitReturnStatement(ctx *ast.ReturnStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	expressions := make([]elements.Expression, 0)
+	if sequence := ctx.ExpressionSequence(); sequence != nil {
+		expressions = sequence.Accept(v).([]elements.Expression)
+	}
+	return &elements.Return{
+		Expressions: expressions,
+	}
 }
 
 func (v *TypeScriptVisitor) VisitYieldStatement(ctx *ast.YieldStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	expressions := make([]elements.Expression, 0)
+	if sequence := ctx.ExpressionSequence(); sequence != nil {
+		expressions = sequence.Accept(v).([]elements.Expression)
+	}
+	return &elements.Yield{
+		Expressions: expressions,
+	}
 }
 
 func (v *TypeScriptVisitor) VisitWithStatement(ctx *ast.WithStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.With{
+		Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression),
+		Statement:   ctx.Statement().(elements.Statement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitSwitchStatement(ctx *ast.SwitchStatementContext) interface{} {
@@ -455,7 +470,10 @@ func (v *TypeScriptVisitor) VisitDefaultClause(ctx *ast.DefaultClauseContext) in
 }
 
 func (v *TypeScriptVisitor) VisitLabelledStatement(ctx *ast.LabelledStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.LabeledStatement{
+		Identifier: ctx.Identifier().GetText(),
+		Statement:  ctx.Statement().Accept(v).(elements.Statement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitThrowStatement(ctx *ast.ThrowStatementContext) interface{} {
@@ -463,15 +481,27 @@ func (v *TypeScriptVisitor) VisitThrowStatement(ctx *ast.ThrowStatementContext) 
 }
 
 func (v *TypeScriptVisitor) VisitTryStatement(ctx *ast.TryStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	try := &elements.Try{
+		Block:   ctx.Block().Accept(v).(*elements.Block),
+	}
+	if catch := ctx.CatchProduction(); catch != nil {
+		try.Catch = catch.Accept(v).(*elements.Catch)
+	}
+	if finally := ctx.CatchProduction(); finally != nil {
+		try.Finally = finally.Accept(v).(*elements.Finally)
+	}
+	return try
 }
 
 func (v *TypeScriptVisitor) VisitCatchProduction(ctx *ast.CatchProductionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Catch{
+		Identifier: ctx.Identifier().GetText(),
+		Block:      ctx.Block().Accept(v).(*elements.Block),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitFinallyProduction(ctx *ast.FinallyProductionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Finally{Block: ctx.Block().Accept(v).(*elements.Block)}
 }
 
 func (v *TypeScriptVisitor) VisitDebuggerStatement(ctx *ast.DebuggerStatementContext) interface{} {
@@ -639,7 +669,11 @@ func (v *TypeScriptVisitor) VisitArgument(ctx *ast.ArgumentContext) interface{} 
 }
 
 func (v *TypeScriptVisitor) VisitExpressionSequence(ctx *ast.ExpressionSequenceContext) interface{} {
-	return v.VisitChildren(ctx)
+	expressions := make([]elements.Expression, 0)
+	for _, expression := range ctx.AllSingleExpression() {
+		expressions = append(expressions, expression.Accept(v).(elements.Expression))
+	}
+	return expressions
 }
 
 func (v *TypeScriptVisitor) VisitFunctionExpressionDeclaration(ctx *ast.FunctionExpressionDeclarationContext) interface{} {
