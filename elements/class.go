@@ -12,18 +12,18 @@ type ClassElement interface{}
 
 type Constructor struct {
 	Accessibility Accessibility
-	Parameters []*FormalParameter
-	Body Block
+	Parameters    []*FormalParameter
+	Body          *Block
 }
 
 type FormalParameter struct {
 	// TODO: Decorator
 	Accessibility Accessibility
-	Name string // TODO: Maybe you should change this
+	Name          string // TODO: Maybe you should change this
 	// TODO: TypeAnnotation
-	Type string // TODO: You must change this
+	Type       string // TODO: You must change this
 	Expression Expression
-	Rest bool
+	Rest       bool
 }
 
 type Getter struct {
@@ -33,8 +33,14 @@ type Getter struct {
 }
 
 type Setter struct {
-	Name string
-	Type string // TODO: Change this
-	Body *Block
+	Name     string
+	Type     string // TODO: Change this
+	Body     *Block
 	Argument string // TODO: Absolutely change this
+}
+
+type IndexSignature struct {
+	Identifier string
+	IsNumber   bool
+	Type       string // TODO: Change this
 }

@@ -309,19 +309,42 @@ func (v *TypeScriptVisitor) VisitConstructSignature(ctx *ast.ConstructSignatureC
 }
 
 func (v *TypeScriptVisitor) VisitIndexSignature(ctx *ast.IndexSignatureContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.IndexSignature{
+		Identifier: ctx.Identifier().GetText(),
+		IsNumber:   ctx.Number() != nil,
+		Type:       ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
+	}
 }
 
 func (v *TypeScriptVisitor) VisitMethodSignature(ctx *ast.MethodSignatureContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.MethodSignature{
+		Name:          ctx.PropertyName().Accept(v).(string),
+		CallSignature: ctx.CallSignature().Accept(v).(*elements.CallSignature),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitTypeAliasDeclaration(ctx *ast.TypeAliasDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	t := &elements.TypeAlias{
+		Identifier: ctx.Identifier().GetText(),
+		Type:       ctx.Accept(v).(string), // Change this
+	}
+	if params := ctx.TypeParameters(); params != nil {
+		t.Parameters = params.Accept(v).([]*elements.TypeParameter)
+	}
+	return t
 }
 
 func (v *TypeScriptVisitor) VisitConstructorDeclaration(ctx *ast.ConstructorDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	c := &elements.Constructor{
+		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
+	if ctx.AccessibilityModifier() != nil {
+		c.Accessibility = ctx.AccessibilityModifier().Accept(v).(elements.Accessibility)
+	}
+	if ctx.FormalParameterList() != nil {
+		c.Parameters = ctx.FormalParameterList().Accept(v).([]*elements.FormalParameter)
+	}
+	return c
 }
 
 func (v *TypeScriptVisitor) VisitInterfaceDeclaration(ctx *ast.InterfaceDeclarationContext) interface{} {
@@ -379,7 +402,10 @@ func (v *TypeScriptVisitor) VisitNamespaceName(ctx *ast.NamespaceNameContext) in
 }
 
 func (v *TypeScriptVisitor) VisitImportAliasDeclaration(ctx *ast.ImportAliasDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.ImportAlias{
+		Name:      ctx.Identifier().GetText(),
+		NameSpace: ctx.NamespaceName().Accept(v).([]string),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitDecoratorList(ctx *ast.DecoratorListContext) interface{} {
@@ -464,19 +490,44 @@ func (v *TypeScriptVisitor) VisitAbstractDeclaration(ctx *ast.AbstractDeclaratio
 }
 
 func (v *TypeScriptVisitor) VisitImportStatement(ctx *ast.ImportStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	i := &elements.Import{}
+	if ctx.FromBlock() != nil {
+		i.FromBlock = ctx.FromBlock().Accept(v).(*elements.FromBlock)
+	}
+	if ctx.ImportAliasDeclaration() != nil {
+		i.ImportAlias = ctx.ImportAliasDeclaration().Accept(v).(*elements.ImportAlias)
+	}
+	return i
 }
 
 func (v *TypeScriptVisitor) VisitFromBlock(ctx *ast.FromBlockContext) interface{} {
-	return v.VisitChildren(ctx)
+	f := &elements.FromBlock{
+		Alias:   ctx.IdentifierName().GetText(),
+		Package: ctx.StringLiteral().GetText(), // TODO: Change this
+	}
+	if ctx.MultipleImportStatement() != nil {
+		f.Members = ctx.MultipleImportStatement().Accept(v).([]string)
+	}
+	return f
 }
 
 func (v *TypeScriptVisitor) VisitMultipleImportStatement(ctx *ast.MultipleImportStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	ids := make([]string, 0)
+	for _, id := range ctx.AllIdentifierName() {
+		ids = append(ids, id.Accept(v).(string))
+	}
+	return ids
 }
 
 func (v *TypeScriptVisitor) VisitExportStatement(ctx *ast.ExportStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	e := &elements.Export{Default: ctx.Default() != nil}
+	if ctx.FromBlock() != nil {
+		e.FromBlock = ctx.FromBlock().Accept(v).(*elements.FromBlock)
+	}
+	if ctx.Statement() != nil {
+		e.Statement = ctx.Statement().Accept(v).(elements.Statement)
+	}
+	return e
 }
 
 func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
@@ -708,7 +759,7 @@ func (v *TypeScriptVisitor) VisitPropertyMemberBase(ctx *ast.PropertyMemberBaseC
 }
 
 func (v *TypeScriptVisitor) VisitIndexMemberDeclaration(ctx *ast.IndexMemberDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.IndexSignature().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitGeneratorMethod(ctx *ast.GeneratorMethodContext) interface{} {

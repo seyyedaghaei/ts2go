@@ -43,3 +43,8 @@ type Iterator struct {
 	Parameters []*FormalParameter
 	Body       *Block
 }
+
+type MethodSignature struct {
+	Name string
+	CallSignature *CallSignature
+}
