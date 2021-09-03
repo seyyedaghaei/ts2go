@@ -25,3 +25,16 @@ type FormalParameter struct {
 	Expression Expression
 	Rest bool
 }
+
+type Getter struct {
+	Name string
+	Type string // TODO: Change this
+	Body *Block
+}
+
+type Setter struct {
+	Name string
+	Type string // TODO: Change this
+	Body *Block
+	Argument string // TODO: Absolutely change this
+}

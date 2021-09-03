@@ -748,11 +748,11 @@ func (v *TypeScriptVisitor) VisitComputedPropertyExpressionAssignment(ctx *ast.C
 }
 
 func (v *TypeScriptVisitor) VisitPropertyGetter(ctx *ast.PropertyGetterContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.GetAccessor().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitPropertySetter(ctx *ast.PropertySetterContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.SetAccessor().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitMethodProperty(ctx *ast.MethodPropertyContext) interface{} {
@@ -768,11 +768,20 @@ func (v *TypeScriptVisitor) VisitRestParameterInObject(ctx *ast.RestParameterInO
 }
 
 func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Getter{
+		Name: ctx.Getter().Accept(v).(string), // TODO: Change this
+		Type: ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
+		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitSetAccessor(ctx *ast.SetAccessorContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Setter{
+		Name: ctx.Setter().Accept(v).(string), // TODO: Change this
+		Type: ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
+		Argument: ctx.Identifier().Accept(v).(string), // TODO: Absolutely change this
+		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitPropertyName(ctx *ast.PropertyNameContext) interface{} {
@@ -1196,11 +1205,11 @@ func (v *TypeScriptVisitor) VisitKeyword(ctx *ast.KeywordContext) interface{} {
 }
 
 func (v *TypeScriptVisitor) VisitGetter(ctx *ast.GetterContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.PropertyName().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitSetter(ctx *ast.SetterContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.PropertyName().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitEos(ctx *ast.EosContext) interface{} {
