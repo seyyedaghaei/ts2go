@@ -543,11 +543,21 @@ func (v *TypeScriptVisitor) VisitWithStatement(ctx *ast.WithStatementContext) in
 }
 
 func (v *TypeScriptVisitor) VisitSwitchStatement(ctx *ast.SwitchStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Switch{
+		Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression),
+		CaseClauses:  ctx.CaseBlock().Accept(v).([]*elements.CaseClause),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitCaseBlock(ctx *ast.CaseBlockContext) interface{} {
-	return v.VisitChildren(ctx)
+	clauses := make([]*elements.CaseClause, 0)
+	for _, clause := range ctx.AllCaseClauses() {
+		clauses = append(clauses, clause.Accept(v).(*elements.CaseClause))
+	}
+	if ctx.DefaultClause() != nil {
+		clauses = append(clauses, ctx.DefaultClause().Accept(v).(*elements.CaseClause))
+	}
+	return clauses
 }
 
 func (v *TypeScriptVisitor) VisitCaseClauses(ctx *ast.CaseClausesContext) interface{} {
@@ -555,11 +565,16 @@ func (v *TypeScriptVisitor) VisitCaseClauses(ctx *ast.CaseClausesContext) interf
 }
 
 func (v *TypeScriptVisitor) VisitCaseClause(ctx *ast.CaseClauseContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.CaseClause{
+		Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression),
+		Statements: ctx.StatementList().Accept(v).([]elements.Statement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitDefaultClause(ctx *ast.DefaultClauseContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.CaseClause{
+		Statements: ctx.StatementList().Accept(v).([]elements.Statement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitLabelledStatement(ctx *ast.LabelledStatementContext) interface{} {

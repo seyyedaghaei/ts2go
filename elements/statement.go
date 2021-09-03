@@ -43,17 +43,27 @@ type Finally struct {
 }
 
 type NameSpace struct {
-	Names []string
+	Names      []string
 	Statements []Statement
 }
 
 type Enum struct {
-	Const bool
+	Const      bool
 	Identifier string
-	Members []*EnumMember
+	Members    []*EnumMember
 }
 
 type EnumMember struct {
-	Name string
+	Name       string
 	Expression Expression
+}
+
+type Switch struct {
+	Expressions []Expression
+	CaseClauses []*CaseClause
+}
+
+type CaseClause struct {
+	Expressions []Expression
+	Statements  []Statement
 }
