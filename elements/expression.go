@@ -79,6 +79,12 @@ type AssignmentOperator struct {
 	Sign            Sign
 }
 
+type Equality struct {
+	LeftExpression  Expression
+	RightExpression Expression
+	Sign            Sign
+}
+
 type In struct {
 	LeftExpression  Expression
 	RightExpression Expression
@@ -124,6 +130,10 @@ type Ternary struct {
 	Question        Expression
 	TrueExpression  Expression
 	FalseExpression Expression
+}
+
+type Parenthesized struct {
+	Expressions []Expression
 }
 
 type This struct{}

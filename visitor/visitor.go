@@ -1029,7 +1029,11 @@ func (v *TypeScriptVisitor) VisitIteratorsExpression(ctx *ast.IteratorsExpressio
 }
 
 func (v *TypeScriptVisitor) VisitEqualityExpression(ctx *ast.EqualityExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Equality{
+		LeftExpression:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		RightExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Sign:            elements.Sign(v.returnNonNilText(ctx.Equals_(), ctx.NotEquals(), ctx.IdentityEquals(), ctx.IdentityNotEquals()).(string)),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitBitXOrExpression(ctx *ast.BitXOrExpressionContext) interface{} {
@@ -1048,23 +1052,39 @@ func (v *TypeScriptVisitor) VisitSuperExpression(ctx *ast.SuperExpressionContext
 }
 
 func (v *TypeScriptVisitor) VisitMultiplicativeExpression(ctx *ast.MultiplicativeExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Multiplicative{
+		LeftExpression:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		RightExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Sign:            elements.Sign(v.returnNonNilText(ctx.Multiply(), ctx.Divide(), ctx.Modulus()).(string)),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitBitShiftExpression(ctx *ast.BitShiftExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.BitShift{
+		LeftExpression:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		RightExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Sign:            elements.Sign(v.returnNonNilText(ctx.LeftShiftArithmetic(), ctx.RightShiftArithmetic(), ctx.RightShiftLogical()).(string)),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitParenthesizedExpression(ctx *ast.ParenthesizedExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Parenthesized{Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression)}
 }
 
 func (v *TypeScriptVisitor) VisitAdditiveExpression(ctx *ast.AdditiveExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Additive{
+		LeftExpression:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		RightExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Sign:            elements.Sign(v.returnNonNilText(ctx.Plus(), ctx.Minus()).(string)),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitRelationalExpression(ctx *ast.RelationalExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Relational{
+		LeftExpression:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		RightExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Sign:            elements.Sign(v.returnNonNilText(ctx.LessThan(), ctx.MoreThan(), ctx.LessThanEquals(), ctx.GreaterThanEquals()).(string)),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitPostIncrementExpression(ctx *ast.PostIncrementExpressionContext) interface{} {
