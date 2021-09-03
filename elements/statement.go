@@ -4,9 +4,12 @@ type Statement interface{}
 
 type Empty struct{}
 
-type Continue struct{}
+type Continue struct{
+	Identifier string
+}
 
 type Break struct {
+	Identifier string
 }
 
 type Return struct {
@@ -71,3 +74,5 @@ type CaseClause struct {
 	Expressions []Expression
 	Statements  []Statement
 }
+
+type Debugger struct {} // Maybe useless

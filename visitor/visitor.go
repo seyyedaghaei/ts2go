@@ -24,11 +24,18 @@ func (v *TypeScriptVisitor) VisitBindingPattern(ctx *ast.BindingPatternContext) 
 }
 
 func (v *TypeScriptVisitor) VisitTypeParameters(ctx *ast.TypeParametersContext) interface{} {
+	if ctx.TypeParameterList() != nil {
+		return ctx.TypeParameterList().Accept(v)
+	}
 	return v.VisitChildren(ctx)
 }
 
 func (v *TypeScriptVisitor) VisitTypeParameterList(ctx *ast.TypeParameterListContext) interface{} {
-	return v.VisitChildren(ctx)
+	params := make([]*elements.TypeParameter, 0)
+	for _, param := range ctx.AllTypeParameter() {
+		params = append(params, param.Accept(v).(*elements.TypeParameter))
+	}
+	return params
 }
 
 func (v *TypeScriptVisitor) VisitTypeParameter(ctx *ast.TypeParameterContext) interface{} {
@@ -36,15 +43,22 @@ func (v *TypeScriptVisitor) VisitTypeParameter(ctx *ast.TypeParameterContext) in
 }
 
 func (v *TypeScriptVisitor) VisitConstraint(ctx *ast.ConstraintContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.Type_().Accept(v) // TODO: Maybe you should change this
 }
 
 func (v *TypeScriptVisitor) VisitTypeArguments(ctx *ast.TypeArgumentsContext) interface{} {
+	if ctx.TypeArgumentList() != nil {
+		return ctx.TypeArgumentList().Accept(v)
+	}
 	return v.VisitChildren(ctx)
 }
 
 func (v *TypeScriptVisitor) VisitTypeArgumentList(ctx *ast.TypeArgumentListContext) interface{} {
-	return v.VisitChildren(ctx)
+	typeArgs := make([]string, 0)
+	for _, arg := range ctx.AllTypeArgument() {
+		typeArgs = append(typeArgs, arg.Accept(v).(string))
+	}
+	return typeArgs
 }
 
 func (v *TypeScriptVisitor) VisitTypeArgument(ctx *ast.TypeArgumentContext) interface{} {
@@ -104,7 +118,14 @@ func (v *TypeScriptVisitor) VisitQueryPrimType(ctx *ast.QueryPrimTypeContext) in
 }
 
 func (v *TypeScriptVisitor) VisitPredefinedType(ctx *ast.PredefinedTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return v.returnNonNilText(
+		ctx.Any(),
+		ctx.Number(),
+		ctx.Boolean(),
+		ctx.Str(),
+		ctx.Symbol(),
+		ctx.Void(),
+	) // TODO: Change this
 }
 
 func (v *TypeScriptVisitor) VisitTypeReference(ctx *ast.TypeReferenceContext) interface{} {
@@ -362,11 +383,15 @@ func (v *TypeScriptVisitor) VisitImportAliasDeclaration(ctx *ast.ImportAliasDecl
 }
 
 func (v *TypeScriptVisitor) VisitDecoratorList(ctx *ast.DecoratorListContext) interface{} {
-	return v.VisitChildren(ctx)
+	decorators := make([]*elements.Decorator, 0)
+	for _, d := range ctx.AllDecorator() {
+		decorators = append(decorators, d.Accept(v).(*elements.Decorator))
+	}
+	return decorators
 }
 
 func (v *TypeScriptVisitor) VisitDecorator(ctx *ast.DecoratorContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Decorator{} // TODO: Complete this
 }
 
 func (v *TypeScriptVisitor) VisitDecoratorMemberExpression(ctx *ast.DecoratorMemberExpressionContext) interface{} {
@@ -455,7 +480,6 @@ func (v *TypeScriptVisitor) VisitExportStatement(ctx *ast.ExportStatementContext
 }
 
 func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
-	ctx.VariableDeclarationList().Accept(v)
 	return v.VisitChildren(ctx)
 }
 
@@ -504,15 +528,23 @@ func (v *TypeScriptVisitor) VisitForVarInStatement(ctx *ast.ForVarInStatementCon
 }
 
 func (v *TypeScriptVisitor) VisitVarModifier(ctx *ast.VarModifierContext) interface{} {
-	return v.VisitChildren(ctx)
+	return "var" // TODO: Change this
 }
 
 func (v *TypeScriptVisitor) VisitContinueStatement(ctx *ast.ContinueStatementContext) interface{} {
-	return &elements.Continue{}
+	c := &elements.Continue{}
+	if ctx.Identifier() != nil {
+		c.Identifier = ctx.Identifier().GetText()
+	}
+	return c
 }
 
 func (v *TypeScriptVisitor) VisitBreakStatement(ctx *ast.BreakStatementContext) interface{} {
-	return &elements.Break{}
+	b := &elements.Break{}
+	if ctx.Identifier() != nil {
+		b.Identifier = ctx.Identifier().GetText()
+	}
+	return b
 }
 
 func (v *TypeScriptVisitor) VisitReturnStatement(ctx *ast.ReturnStatementContext) interface{} {
@@ -613,7 +645,7 @@ func (v *TypeScriptVisitor) VisitFinallyProduction(ctx *ast.FinallyProductionCon
 }
 
 func (v *TypeScriptVisitor) VisitDebuggerStatement(ctx *ast.DebuggerStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Debugger{}
 }
 
 func (v *TypeScriptVisitor) VisitFunctionDeclaration(ctx *ast.FunctionDeclarationContext) interface{} {
@@ -680,27 +712,56 @@ func (v *TypeScriptVisitor) VisitIndexMemberDeclaration(ctx *ast.IndexMemberDecl
 }
 
 func (v *TypeScriptVisitor) VisitGeneratorMethod(ctx *ast.GeneratorMethodContext) interface{} {
-	return v.VisitChildren(ctx)
+	g := &elements.Generator{
+		Identifier: ctx.Identifier().GetText(),
+		Body:       ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
+	if ctx.FormalParameterList() != nil {
+		g.Parameters = ctx.FormalParameterList().Accept(v).([]*elements.FormalParameter)
+	}
+	return g
 }
 
 func (v *TypeScriptVisitor) VisitGeneratorFunctionDeclaration(ctx *ast.GeneratorFunctionDeclarationContext) interface{} {
-	return ctx.Accept(v)
+	g := &elements.Generator{
+		Identifier: ctx.Identifier().GetText(),
+		Body:       ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
+	if ctx.FormalParameterList() != nil {
+		g.Parameters = ctx.FormalParameterList().Accept(v).([]*elements.FormalParameter)
+	}
+	return g
 }
 
 func (v *TypeScriptVisitor) VisitGeneratorBlock(ctx *ast.GeneratorBlockContext) interface{} {
-	return v.VisitChildren(ctx)
+	generators := make([]*elements.Iterator, 0)
+	for _, g := range ctx.AllGeneratorDefinition() {
+		generators = append(generators, g.Accept(v).(*elements.Iterator))
+	}
+	return generators
 }
 
 func (v *TypeScriptVisitor) VisitGeneratorDefinition(ctx *ast.GeneratorDefinitionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.IteratorDefinition().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitIteratorBlock(ctx *ast.IteratorBlockContext) interface{} {
-	return v.VisitChildren(ctx)
+	iterators := make([]*elements.Iterator, 0)
+	for _, i := range ctx.AllIteratorDefinition() {
+		iterators = append(iterators, i.Accept(v).(*elements.Iterator))
+	}
+	return iterators
 }
 
 func (v *TypeScriptVisitor) VisitIteratorDefinition(ctx *ast.IteratorDefinitionContext) interface{} {
-	return v.VisitChildren(ctx)
+	i := &elements.Iterator{
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
+		Body:       ctx.FunctionBody().Accept(v).(*elements.Block),
+	}
+	if ctx.FormalParameterList() != nil {
+		i.Parameters = ctx.FormalParameterList().Accept(v).([]*elements.FormalParameter)
+	}
+	return i
 }
 
 func (v *TypeScriptVisitor) VisitFormalParameterList(ctx *ast.FormalParameterListContext) interface{} {
@@ -724,15 +785,30 @@ func (v *TypeScriptVisitor) VisitFunctionBody(ctx *ast.FunctionBodyContext) inte
 }
 
 func (v *TypeScriptVisitor) VisitArrayLiteral(ctx *ast.ArrayLiteralContext) interface{} {
-	return v.VisitChildren(ctx)
+	elems := make([]*elements.ArrayElement, 0)
+	if e := ctx.ElementList(); e != nil {
+		elems = e.Accept(v).([]*elements.ArrayElement)
+	}
+	return &elements.Array{Elements: elems}
 }
 
 func (v *TypeScriptVisitor) VisitElementList(ctx *ast.ElementListContext) interface{} {
-	return v.VisitChildren(ctx)
+	elems := make([]*elements.ArrayElement, 0)
+	for _, e := range ctx.AllArrayElement() {
+		elems = append(elems, e.Accept(v).(*elements.ArrayElement))
+	}
+	return elems
 }
 
 func (v *TypeScriptVisitor) VisitArrayElement(ctx *ast.ArrayElementContext) interface{} {
-	return v.VisitChildren(ctx)
+	element := &elements.ArrayElement{Ellipsis: ctx.Ellipsis() != nil}
+	if ctx.Identifier() != nil {
+		element.Identifier = ctx.Identifier().GetText()
+	}
+	if ctx.SingleExpression() != nil {
+		element.Expression = ctx.SingleExpression().Accept(v).(elements.Expression)
+	}
+	return element
 }
 
 func (v *TypeScriptVisitor) VisitObjectLiteral(ctx *ast.ObjectLiteralContext) interface{} {
@@ -769,7 +845,7 @@ func (v *TypeScriptVisitor) VisitRestParameterInObject(ctx *ast.RestParameterInO
 
 func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interface{} {
 	return &elements.Getter{
-		Name: ctx.Getter().Accept(v).(string), // TODO: Change this
+		Name: ctx.Getter().Accept(v).(string),         // TODO: Change this
 		Type: ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
 		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
 	}
@@ -777,10 +853,10 @@ func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interf
 
 func (v *TypeScriptVisitor) VisitSetAccessor(ctx *ast.SetAccessorContext) interface{} {
 	return &elements.Setter{
-		Name: ctx.Setter().Accept(v).(string), // TODO: Change this
-		Type: ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
-		Argument: ctx.Identifier().Accept(v).(string), // TODO: Absolutely change this
-		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
+		Name:     ctx.Setter().Accept(v).(string),         // TODO: Change this
+		Type:     ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
+		Argument: ctx.Identifier().Accept(v).(string),     // TODO: Absolutely change this
+		Body:     ctx.FunctionBody().Accept(v).(*elements.Block),
 	}
 }
 
@@ -826,8 +902,8 @@ func (v *TypeScriptVisitor) VisitTemplateStringExpression(ctx *ast.TemplateStrin
 
 func (v *TypeScriptVisitor) VisitTernaryExpression(ctx *ast.TernaryExpressionContext) interface{} {
 	return &elements.Ternary{
-		Question:  ctx.SingleExpression(0).Accept(v).(elements.Expression),
-		TrueExpression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+		Question:        ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		TrueExpression:  ctx.SingleExpression(1).Accept(v).(elements.Expression),
 		FalseExpression: ctx.SingleExpression(2).Accept(v).(elements.Expression),
 	}
 }
@@ -845,7 +921,7 @@ func (v *TypeScriptVisitor) VisitGeneratorsExpression(ctx *ast.GeneratorsExpress
 
 func (v *TypeScriptVisitor) VisitPreIncrementExpression(ctx *ast.PreIncrementExpressionContext) interface{} {
 	return &elements.PreIncrement{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
@@ -873,13 +949,13 @@ func (v *TypeScriptVisitor) VisitGenericTypes(ctx *ast.GenericTypesContext) inte
 
 func (v *TypeScriptVisitor) VisitNotExpression(ctx *ast.NotExpressionContext) interface{} {
 	return &elements.Not{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
 func (v *TypeScriptVisitor) VisitPreDecreaseExpression(ctx *ast.PreDecreaseExpressionContext) interface{} {
 	return &elements.PreDecrease{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
@@ -911,13 +987,13 @@ func (v *TypeScriptVisitor) VisitAssignmentExpression(ctx *ast.AssignmentExpress
 
 func (v *TypeScriptVisitor) VisitPostDecreaseExpression(ctx *ast.PostDecreaseExpressionContext) interface{} {
 	return &elements.PostDecrease{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
 func (v *TypeScriptVisitor) VisitTypeofExpression(ctx *ast.TypeofExpressionContext) interface{} {
 	return &elements.TypeOf{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
@@ -930,13 +1006,13 @@ func (v *TypeScriptVisitor) VisitInstanceofExpression(ctx *ast.InstanceofExpress
 
 func (v *TypeScriptVisitor) VisitUnaryPlusExpression(ctx *ast.UnaryPlusExpressionContext) interface{} {
 	return &elements.UnaryPlus{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
 func (v *TypeScriptVisitor) VisitDeleteExpression(ctx *ast.DeleteExpressionContext) interface{} {
 	return &elements.Delete{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
@@ -993,7 +1069,7 @@ func (v *TypeScriptVisitor) VisitRelationalExpression(ctx *ast.RelationalExpress
 
 func (v *TypeScriptVisitor) VisitPostIncrementExpression(ctx *ast.PostIncrementExpressionContext) interface{} {
 	return &elements.PostIncrement{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
@@ -1003,7 +1079,7 @@ func (v *TypeScriptVisitor) VisitYieldExpression(ctx *ast.YieldExpressionContext
 
 func (v *TypeScriptVisitor) VisitBitNotExpression(ctx *ast.BitNotExpressionContext) interface{} {
 	return &elements.BitNot{
-		Expression:  ctx.SingleExpression().Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
 	}
 }
 
