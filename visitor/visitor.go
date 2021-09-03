@@ -74,7 +74,7 @@ func (v *TypeScriptVisitor) VisitIntersection(ctx *ast.IntersectionContext) inte
 }
 
 func (v *TypeScriptVisitor) VisitPrimary(ctx *ast.PrimaryContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.PrimaryType().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitUnion(ctx *ast.UnionContext) interface{} {
@@ -90,7 +90,7 @@ func (v *TypeScriptVisitor) VisitPredefinedPrimType(ctx *ast.PredefinedPrimTypeC
 }
 
 func (v *TypeScriptVisitor) VisitArrayPrimType(ctx *ast.ArrayPrimTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return  &elements.ArrayType{Type: ctx.PrimaryType().Accept(v).(elements.PrimaryType)}
 }
 
 func (v *TypeScriptVisitor) VisitParenthesizedPrimType(ctx *ast.ParenthesizedPrimTypeContext) interface{} {
@@ -98,15 +98,15 @@ func (v *TypeScriptVisitor) VisitParenthesizedPrimType(ctx *ast.ParenthesizedPri
 }
 
 func (v *TypeScriptVisitor) VisitThisPrimType(ctx *ast.ThisPrimTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.This{}
 }
 
 func (v *TypeScriptVisitor) VisitTuplePrimType(ctx *ast.TuplePrimTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.TupleElementTypes().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitObjectPrimType(ctx *ast.ObjectPrimTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.ObjectType().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitReferencePrimType(ctx *ast.ReferencePrimTypeContext) interface{} {
@@ -137,7 +137,7 @@ func (v *TypeScriptVisitor) VisitNestedTypeGeneric(ctx *ast.NestedTypeGenericCon
 }
 
 func (v *TypeScriptVisitor) VisitTypeGeneric(ctx *ast.TypeGenericContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.TypeArgumentList().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitTypeIncludeGeneric(ctx *ast.TypeIncludeGenericContext) interface{} {
@@ -149,15 +149,22 @@ func (v *TypeScriptVisitor) VisitTypeName(ctx *ast.TypeNameContext) interface{} 
 }
 
 func (v *TypeScriptVisitor) VisitObjectType(ctx *ast.ObjectTypeContext) interface{} {
+	if ctx.TypeBody() != nil {
+		return ctx.TypeBody().Accept(v)
+	}
 	return v.VisitChildren(ctx)
 }
 
 func (v *TypeScriptVisitor) VisitTypeBody(ctx *ast.TypeBodyContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.TypeMemberList().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitTypeMemberList(ctx *ast.TypeMemberListContext) interface{} {
-	return v.VisitChildren(ctx)
+	members := make([]elements.TypeMember, 0)
+	for _, member := range ctx.AllTypeMember() {
+		members = append(members, member.Accept(v).(elements.TypeMember))
+	}
+	return members
 }
 
 func (v *TypeScriptVisitor) VisitTypeMember(ctx *ast.TypeMemberContext) interface{} {
@@ -165,35 +172,61 @@ func (v *TypeScriptVisitor) VisitTypeMember(ctx *ast.TypeMemberContext) interfac
 }
 
 func (v *TypeScriptVisitor) VisitArrayType(ctx *ast.ArrayTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.ArrayType{Type: ctx.PrimaryType().Accept(v).(elements.PrimaryType)}
 }
 
 func (v *TypeScriptVisitor) VisitTupleType(ctx *ast.TupleTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.TupleElementTypes().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitTupleElementTypes(ctx *ast.TupleElementTypesContext) interface{} {
-	return v.VisitChildren(ctx)
+	// TODO: Change type
+	types := make([]string, 0)
+	for _, t := range ctx.AllType_() {
+		types = append(types, t.Accept(v).(string))
+	}
+	return types
 }
 
 func (v *TypeScriptVisitor) VisitFunctionType(ctx *ast.FunctionTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.FunctionType{
+		TypeParameters: ctx.TypeParameters().Accept(v).([]*elements.TypeParameter),
+		Parameters:     ctx.ParameterList().Accept(v).([]*elements.Parameter),
+		Type:           ctx.Accept(v).(string),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitConstructorType(ctx *ast.ConstructorTypeContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.ConstructorType{
+		TypeParameters: ctx.TypeParameters().Accept(v).([]*elements.TypeParameter),
+		Parameters:     ctx.ParameterList().Accept(v).([]*elements.Parameter),
+		Type:           ctx.Accept(v).(string),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitTypeQuery(ctx *ast.TypeQueryContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.TypeQueryExpression().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitTypeQueryExpression(ctx *ast.TypeQueryExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	ids := make([]string, 0)
+	if ctx.Identifier() != nil {
+		ids = append(ids, ctx.Identifier().GetText())
+	} else {
+		for _, name := range ctx.AllIdentifierName() {
+			ids = append(ids, name.Accept(v).(string))
+		}
+	}
+	return ids
 }
 
 func (v *TypeScriptVisitor) VisitPropertySignatur(ctx *ast.PropertySignaturContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.PropertySignature{
+		ReadOnly:   ctx.ReadOnly() != nil,
+		Name:       ctx.PropertyName().Accept(v).(string),
+		Type:       ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
+		ReturnType: ctx.Type_().Accept(v).(string), // TODO: Change this
+	}
 }
 
 func (v *TypeScriptVisitor) VisitTypeAnnotation(ctx *ast.TypeAnnotationContext) interface{} {

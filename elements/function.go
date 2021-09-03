@@ -45,6 +45,19 @@ type Iterator struct {
 }
 
 type MethodSignature struct {
-	Name string
+	Name          string
 	CallSignature *CallSignature
+}
+
+type PropertySignature struct {
+	ReadOnly   bool
+	Name       string
+	Type       string // TODO: Change this
+	ReturnType string // TODO: Change this
+}
+
+type PrimaryType interface{}
+
+type ArrayType struct {
+	Type PrimaryType
 }
