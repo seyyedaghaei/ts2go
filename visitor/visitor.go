@@ -190,7 +190,7 @@ func (v *TypeScriptVisitor) VisitCallSignature(ctx *ast.CallSignatureContext) in
 	}
 	return &elements.CallSignature{
 		Parameters: parameters,
-		Type: typ,
+		Type:       typ,
 	}
 }
 
@@ -215,9 +215,9 @@ func (v *TypeScriptVisitor) VisitParameter(ctx *ast.ParameterContext) interface{
 
 func (v *TypeScriptVisitor) VisitOptionalParameter(ctx *ast.OptionalParameterContext) interface{} {
 	parameter := &elements.Parameter{
-		Identifier:    ctx.IdentifierOrPattern().Accept(v).(string), // TODO: Change this
-		Required:      false,
-		Rest:          false,
+		Identifier: ctx.IdentifierOrPattern().Accept(v).(string), // TODO: Change this
+		Required:   false,
+		Rest:       false,
 	}
 	if ctx.AccessibilityModifier() != nil {
 		parameter.Accessibility = ctx.AccessibilityModifier().Accept(v).(elements.Accessibility)
@@ -237,11 +237,11 @@ func (v *TypeScriptVisitor) VisitRestParameter(ctx *ast.RestParameterContext) in
 		typ = ctx.TypeAnnotation().Accept(v).(string) // TODO: Change this
 	}
 	return &elements.Parameter{
-		Identifier: ctx.SingleExpression().Accept(v).(string), // TODO: Change this
+		Identifier:    ctx.SingleExpression().Accept(v).(string), // TODO: Change this
 		Required:      false,
 		Rest:          true,
 		Accessibility: elements.None,
-		Type: typ,
+		Type:          typ,
 	}
 }
 
@@ -255,7 +255,7 @@ func (v *TypeScriptVisitor) VisitRequiredParameter(ctx *ast.RequiredParameterCon
 		typ = ctx.TypeAnnotation().Accept(v).(string) // TODO: Change this
 	}
 	return &elements.Parameter{
-		Identifier: ctx.IdentifierOrPattern().Accept(v).(string), // TODO: Change this
+		Identifier:    ctx.IdentifierOrPattern().Accept(v).(string), // TODO: Change this
 		Required:      true,
 		Rest:          false,
 		Accessibility: a,
@@ -545,7 +545,7 @@ func (v *TypeScriptVisitor) VisitWithStatement(ctx *ast.WithStatementContext) in
 func (v *TypeScriptVisitor) VisitSwitchStatement(ctx *ast.SwitchStatementContext) interface{} {
 	return &elements.Switch{
 		Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression),
-		CaseClauses:  ctx.CaseBlock().Accept(v).([]*elements.CaseClause),
+		CaseClauses: ctx.CaseBlock().Accept(v).([]*elements.CaseClause),
 	}
 }
 
@@ -567,7 +567,7 @@ func (v *TypeScriptVisitor) VisitCaseClauses(ctx *ast.CaseClausesContext) interf
 func (v *TypeScriptVisitor) VisitCaseClause(ctx *ast.CaseClauseContext) interface{} {
 	return &elements.CaseClause{
 		Expressions: ctx.ExpressionSequence().Accept(v).([]elements.Expression),
-		Statements: ctx.StatementList().Accept(v).([]elements.Statement),
+		Statements:  ctx.StatementList().Accept(v).([]elements.Statement),
 	}
 }
 
@@ -585,7 +585,7 @@ func (v *TypeScriptVisitor) VisitLabelledStatement(ctx *ast.LabelledStatementCon
 }
 
 func (v *TypeScriptVisitor) VisitThrowStatement(ctx *ast.ThrowStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Throw{Expressions: ctx.Throw().Accept(v).([]elements.Expression)}
 }
 
 func (v *TypeScriptVisitor) VisitTryStatement(ctx *ast.TryStatementContext) interface{} {
@@ -780,15 +780,23 @@ func (v *TypeScriptVisitor) VisitPropertyName(ctx *ast.PropertyNameContext) inte
 }
 
 func (v *TypeScriptVisitor) VisitArguments(ctx *ast.ArgumentsContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.ArgumentList().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitArgumentList(ctx *ast.ArgumentListContext) interface{} {
-	return v.VisitChildren(ctx)
+	arguments := make([]elements.Statement, 0)
+	for _, arg := range ctx.AllArgument() {
+		arguments = append(arguments, arg.Accept(v).(elements.Statement))
+	}
+	return arguments
 }
 
 func (v *TypeScriptVisitor) VisitArgument(ctx *ast.ArgumentContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Argument{
+		Rest:       ctx.Ellipsis() != nil,
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
+		Identifier: ctx.Identifier().GetText(),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitExpressionSequence(ctx *ast.ExpressionSequenceContext) interface{} {
@@ -1005,15 +1013,27 @@ func (v *TypeScriptVisitor) VisitArrowFunctionParameters(ctx *ast.ArrowFunctionP
 }
 
 func (v *TypeScriptVisitor) VisitArrowFunctionBody(ctx *ast.ArrowFunctionBodyContext) interface{} {
-	return v.VisitChildren(ctx)
+	if ctx.SingleExpression() != nil {
+		return &elements.Block{Statements: []elements.Statement{ctx.SingleExpression().Accept(v).(elements.Statement)}}
+	}
+	return ctx.FunctionBody().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitAssignmentOperator(ctx *ast.AssignmentOperatorContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.GetText() // TODO: Change this
 }
 
 func (v *TypeScriptVisitor) VisitLiteral(ctx *ast.LiteralContext) interface{} {
 	// TODO: Complete this
+	if ctx.NullLiteral() != nil {
+		return &elements.Null{}
+	}
+	if ctx.BooleanLiteral() != nil {
+		return ctx.BooleanLiteral().GetText() // TODO: You must change this
+	}
+	if ctx.TemplateStringLiteral() != nil {
+		ctx.TemplateStringLiteral().Accept(v)
+	}
 	if ctx.NumericLiteral() != nil {
 		return ctx.NumericLiteral().Accept(v)
 	}
@@ -1021,11 +1041,20 @@ func (v *TypeScriptVisitor) VisitLiteral(ctx *ast.LiteralContext) interface{} {
 }
 
 func (v *TypeScriptVisitor) VisitTemplateStringLiteral(ctx *ast.TemplateStringLiteralContext) interface{} {
-	return v.VisitChildren(ctx)
+	// TODO: Maybe you should change this
+	atoms := make([]interface{}, 0) // TODO: Type
+	for _, atom := range ctx.AllTemplateStringAtom() {
+		atoms = append(atoms, atom.Accept(v)) // TODO: cast
+	}
+	return atoms
 }
 
 func (v *TypeScriptVisitor) VisitTemplateStringAtom(ctx *ast.TemplateStringAtomContext) interface{} {
-	return v.VisitChildren(ctx)
+	// TODO: You should change this
+	if ctx.TemplateStringAtom() != nil {
+		return ctx.TemplateStringAtom().GetText()
+	}
+	return ctx.SingleExpression().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitNumericLiteral(ctx *ast.NumericLiteralContext) interface{} {
@@ -1040,15 +1069,74 @@ func (v *TypeScriptVisitor) VisitIdentifierName(ctx *ast.IdentifierNameContext) 
 }
 
 func (v *TypeScriptVisitor) VisitIdentifierOrKeyWord(ctx *ast.IdentifierOrKeyWordContext) interface{} {
-	return v.VisitChildren(ctx)
+	return v.returnNonNilText(
+		ctx.Identifier(),
+		ctx.TypeAlias(),
+		ctx.Require(),
+	) // TODO: You probably wanna change this
 }
 
 func (v *TypeScriptVisitor) VisitReservedWord(ctx *ast.ReservedWordContext) interface{} {
-	return v.VisitChildren(ctx)
+	text := v.returnNonNilText(ctx.NullLiteral(), ctx.BooleanLiteral())
+	if text != nil {
+		return text
+	}
+	return ctx.Keyword().Accept(v) // TODO: You probably wanna change this
 }
 
 func (v *TypeScriptVisitor) VisitKeyword(ctx *ast.KeywordContext) interface{} {
-	return v.VisitChildren(ctx)
+	return v.returnNonNilText(
+		ctx.Break(),
+		ctx.Do(),
+		ctx.Instanceof(),
+		ctx.Typeof(),
+		ctx.Case(),
+		ctx.Else(),
+		ctx.New(),
+		ctx.Var(),
+		ctx.Catch(),
+		ctx.Finally(),
+		ctx.Return(),
+		ctx.Void(),
+		ctx.Continue(),
+		ctx.For(),
+		ctx.Switch(),
+		ctx.While(),
+		ctx.Debugger(),
+		ctx.Function_(),
+		ctx.This(),
+		ctx.With(),
+		ctx.Default(),
+		ctx.If(),
+		ctx.Throw(),
+		ctx.Delete(),
+		ctx.In(),
+		ctx.Try(),
+		ctx.ReadOnly(),
+		ctx.Async(),
+		ctx.From(),
+		ctx.Class(),
+		ctx.Enum(),
+		ctx.Extends(),
+		ctx.Super(),
+		ctx.Const(),
+		ctx.Export(),
+		ctx.Import(),
+		ctx.Implements(),
+		ctx.Let(),
+		ctx.Private(),
+		ctx.Public(),
+		ctx.Interface(),
+		ctx.Package(),
+		ctx.Protected(),
+		ctx.Static(),
+		ctx.Yield(),
+		ctx.Get(),
+		ctx.Set(),
+		ctx.Require(),
+		ctx.TypeAlias(),
+		ctx.Str(),
+	) // TODO: You probably wanna change this
 }
 
 func (v *TypeScriptVisitor) VisitGetter(ctx *ast.GetterContext) interface{} {
@@ -1060,5 +1148,5 @@ func (v *TypeScriptVisitor) VisitSetter(ctx *ast.SetterContext) interface{} {
 }
 
 func (v *TypeScriptVisitor) VisitEos(ctx *ast.EosContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.EOS{}
 }

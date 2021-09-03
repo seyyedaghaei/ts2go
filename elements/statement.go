@@ -42,6 +42,10 @@ type Finally struct {
 	Block *Block
 }
 
+type Throw struct {
+	Expressions []Expression
+}
+
 type NameSpace struct {
 	Names      []string
 	Statements []Statement

@@ -10,3 +10,12 @@ func (v *TypeScriptVisitor) returnNonNil(trees ...antlr.ParseTree) interface{} {
 	}
 	return nil
 }
+
+func (v *TypeScriptVisitor) returnNonNilText(trees ...antlr.ParseTree) interface{} {
+	for _, tree := range trees {
+		if tree != nil {
+			return tree.GetText()
+		}
+	}
+	return nil
+}

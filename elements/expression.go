@@ -129,3 +129,7 @@ type Ternary struct {
 type This struct{}
 
 type Super struct{}
+
+type EOS struct {}
+
+type Null struct {}

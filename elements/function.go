@@ -25,3 +25,9 @@ type Parameter struct {
 type Initializer struct {
 	Expression Expression
 }
+
+type Argument struct {
+	Rest bool
+	Expression Expression
+	Identifier string
+}
