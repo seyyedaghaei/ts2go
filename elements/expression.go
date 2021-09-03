@@ -133,3 +133,13 @@ type Super struct{}
 type EOS struct {}
 
 type Null struct {}
+
+type Arguments struct {
+	Expression Expression
+	Arguments []*Argument
+}
+
+type MemberIndex struct {
+	Expression Expression
+	Index []Expression
+}
