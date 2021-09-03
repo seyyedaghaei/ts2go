@@ -1,12 +1,18 @@
 package visitor // TypeScriptParser
 import (
+	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/seyyedaghaei/ts2go/ast"
 	"github.com/seyyedaghaei/ts2go/elements"
+	"reflect"
 )
 
 type TypeScriptVisitor struct {
 	*antlr.BaseParseTreeVisitor
+}
+
+func (v *TypeScriptVisitor) VisitChildren(node antlr.RuleNode) interface{} {
+	panic(fmt.Errorf("you should implement %s type", reflect.TypeOf(node)))
 }
 
 func (v *TypeScriptVisitor) VisitInitializer(ctx *ast.InitializerContext) interface{} {
@@ -310,27 +316,45 @@ func (v *TypeScriptVisitor) VisitClassOrInterfaceTypeList(ctx *ast.ClassOrInterf
 }
 
 func (v *TypeScriptVisitor) VisitEnumDeclaration(ctx *ast.EnumDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Enum{
+		Const:      ctx.Const() != nil,
+		Identifier: ctx.Identifier().GetText(),
+		Members:    ctx.EnumBody().Accept(v).([]*elements.EnumMember),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitEnumBody(ctx *ast.EnumBodyContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.EnumMemberList().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitEnumMemberList(ctx *ast.EnumMemberListContext) interface{} {
-	return v.VisitChildren(ctx)
+	members := make([]elements.EnumMember, 0)
+	for _, member := range ctx.AllEnumMember() {
+		members = append(members, member.Accept(v).(elements.EnumMember))
+	}
+	return members
 }
 
 func (v *TypeScriptVisitor) VisitEnumMember(ctx *ast.EnumMemberContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.EnumMember{
+		Name:       ctx.PropertyName().Accept(v).(string), // TODO: Maybe you should change this
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitNamespaceDeclaration(ctx *ast.NamespaceDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.NameSpace{
+		Names:      ctx.NamespaceName().Accept(v).([]string),
+		Statements: ctx.StatementList().Accept(v).([]elements.Statement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitNamespaceName(ctx *ast.NamespaceNameContext) interface{} {
-	return v.VisitChildren(ctx)
+	identifiers := make([]string, 0)
+	for _, id := range ctx.AllIdentifier() {
+		identifiers = append(identifiers, id.GetText())
+	}
+	return identifiers
 }
 
 func (v *TypeScriptVisitor) VisitImportAliasDeclaration(ctx *ast.ImportAliasDeclarationContext) interface{} {
@@ -431,6 +455,7 @@ func (v *TypeScriptVisitor) VisitExportStatement(ctx *ast.ExportStatementContext
 }
 
 func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
+	ctx.VariableDeclarationList().Accept(v)
 	return v.VisitChildren(ctx)
 }
 
@@ -584,7 +609,11 @@ func (v *TypeScriptVisitor) VisitFunctionDeclaration(ctx *ast.FunctionDeclaratio
 }
 
 func (v *TypeScriptVisitor) VisitClassDeclaration(ctx *ast.ClassDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.Class{
+		Abstract:   ctx.Abstract() != nil,
+		Identifier: ctx.Identifier().GetText(),
+		Elements:   ctx.ClassTail().Accept(v).([]elements.ClassElement),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitClassHeritage(ctx *ast.ClassHeritageContext) interface{} {
@@ -592,7 +621,11 @@ func (v *TypeScriptVisitor) VisitClassHeritage(ctx *ast.ClassHeritageContext) in
 }
 
 func (v *TypeScriptVisitor) VisitClassTail(ctx *ast.ClassTailContext) interface{} {
-	return v.VisitChildren(ctx)
+	classElements := make([]elements.ClassElement, 0)
+	for _, element := range ctx.AllClassElement() {
+		classElements = append(classElements, element.Accept(v).(elements.ClassElement))
+	}
+	return classElements
 }
 
 func (v *TypeScriptVisitor) VisitClassExtendsClause(ctx *ast.ClassExtendsClauseContext) interface{} {
@@ -664,7 +697,7 @@ func (v *TypeScriptVisitor) VisitFormalParameterArg(ctx *ast.FormalParameterArgC
 }
 
 func (v *TypeScriptVisitor) VisitLastFormalParameterArg(ctx *ast.LastFormalParameterArgContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.Identifier().GetText() // TODO: Maybe you should change this
 }
 
 func (v *TypeScriptVisitor) VisitFunctionBody(ctx *ast.FunctionBodyContext) interface{} {

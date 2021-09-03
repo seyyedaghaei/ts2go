@@ -1,13 +1,10 @@
 package elements
 
-type Statement interface {
-}
+type Statement interface{}
 
-type Empty struct {
-}
+type Empty struct{}
 
-type Continue struct {
-}
+type Continue struct{}
 
 type Break struct {
 }
@@ -27,20 +24,36 @@ type With struct {
 
 type LabeledStatement struct {
 	Identifier string
-	Statement Statement
+	Statement  Statement
 }
 
 type Try struct {
-	Block *Block
-	Catch *Catch
+	Block   *Block
+	Catch   *Catch
 	Finally *Finally
 }
 
 type Catch struct {
 	Identifier string
-	Block *Block
+	Block      *Block
 }
 
 type Finally struct {
 	Block *Block
+}
+
+type NameSpace struct {
+	Names []string
+	Statements []Statement
+}
+
+type Enum struct {
+	Const bool
+	Identifier string
+	Members []*EnumMember
+}
+
+type EnumMember struct {
+	Name string
+	Expression Expression
 }
