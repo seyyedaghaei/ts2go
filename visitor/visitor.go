@@ -20,7 +20,14 @@ func (v *TypeScriptVisitor) VisitInitializer(ctx *ast.InitializerContext) interf
 }
 
 func (v *TypeScriptVisitor) VisitBindingPattern(ctx *ast.BindingPatternContext) interface{} {
-	return v.VisitChildren(ctx)
+	b := &elements.BindingPattern{}
+	if ctx.ArrayLiteral() != nil {
+		b.Array = ctx.ArrayLiteral().Accept(v).(*elements.Array)
+	}
+	if ctx.ObjectLiteral() != nil {
+		b.Object = ctx.ObjectLiteral().Accept(v).(*elements.Object)
+	}
+	return b
 }
 
 func (v *TypeScriptVisitor) VisitTypeParameters(ctx *ast.TypeParametersContext) interface{} {
@@ -90,7 +97,7 @@ func (v *TypeScriptVisitor) VisitPredefinedPrimType(ctx *ast.PredefinedPrimTypeC
 }
 
 func (v *TypeScriptVisitor) VisitArrayPrimType(ctx *ast.ArrayPrimTypeContext) interface{} {
-	return  &elements.ArrayType{Type: ctx.PrimaryType().Accept(v).(elements.PrimaryType)}
+	return &elements.ArrayType{Type: ctx.PrimaryType().Accept(v).(elements.PrimaryType)}
 }
 
 func (v *TypeScriptVisitor) VisitParenthesizedPrimType(ctx *ast.ParenthesizedPrimTypeContext) interface{} {
@@ -225,7 +232,7 @@ func (v *TypeScriptVisitor) VisitPropertySignatur(ctx *ast.PropertySignaturConte
 		ReadOnly:   ctx.ReadOnly() != nil,
 		Name:       ctx.PropertyName().Accept(v).(string),
 		Type:       ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
-		ReturnType: ctx.Type_().Accept(v).(string), // TODO: Change this
+		ReturnType: ctx.Type_().Accept(v).(string),          // TODO: Change this
 	}
 }
 
@@ -568,11 +575,31 @@ func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementCon
 }
 
 func (v *TypeScriptVisitor) VisitVariableDeclarationList(ctx *ast.VariableDeclarationListContext) interface{} {
-	return v.VisitChildren(ctx)
+	vars := make([]*elements.Variable, 0)
+	for _, variable := range ctx.AllVariableDeclaration() {
+		vars = append(vars, variable.Accept(v).(*elements.Variable))
+	}
+	return vars
 }
 
 func (v *TypeScriptVisitor) VisitVariableDeclaration(ctx *ast.VariableDeclarationContext) interface{} {
-	return v.VisitChildren(ctx)
+	variable := &elements.Variable{}
+	if ctx.IdentifierOrKeyWord() != nil {
+		variable.Identifier = ctx.IdentifierOrKeyWord().Accept(v).(string)
+	}
+	if ctx.TypeAnnotation() != nil {
+		variable.Type = ctx.TypeAnnotation().Accept(v).(string)
+	}
+	if len(ctx.AllSingleExpression()) > 0 {
+		variable.Expression = ctx.SingleExpression(0).Accept(v).(elements.Expression)
+		if len(ctx.AllSingleExpression()) > 1 {
+			variable.Initializer = ctx.SingleExpression(1).Accept(v).(elements.Expression)
+		}
+	}
+	if ctx.TypeParameters() != nil {
+		variable.TypeParameters = ctx.TypeParameters().Accept(v).([]*elements.TypeParameter)
+	}
+	return variable
 }
 
 func (v *TypeScriptVisitor) VisitEmptyStatement(_ *ast.EmptyStatementContext) interface{} {
@@ -612,7 +639,7 @@ func (v *TypeScriptVisitor) VisitForVarInStatement(ctx *ast.ForVarInStatementCon
 }
 
 func (v *TypeScriptVisitor) VisitVarModifier(ctx *ast.VarModifierContext) interface{} {
-	return "var" // TODO: Change this
+	return v.returnNonNilText(ctx.Var(), ctx.Let(), ctx.Const()) // TODO: Change this
 }
 
 func (v *TypeScriptVisitor) VisitContinueStatement(ctx *ast.ContinueStatementContext) interface{} {
@@ -896,15 +923,25 @@ func (v *TypeScriptVisitor) VisitArrayElement(ctx *ast.ArrayElementContext) inte
 }
 
 func (v *TypeScriptVisitor) VisitObjectLiteral(ctx *ast.ObjectLiteralContext) interface{} {
-	return v.VisitChildren(ctx)
+	props := make([]elements.ObjectProperty, 0)
+	for _, p := range ctx.AllPropertyAssignment() {
+		props = append(props, p.Accept(v).(elements.ObjectProperty))
+	}
+	return &elements.Object{Properties: props}
 }
 
 func (v *TypeScriptVisitor) VisitPropertyExpressionAssignment(ctx *ast.PropertyExpressionAssignmentContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.PropertyAssignment{
+		Name:       ctx.PropertyName().Accept(v).(string),
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitComputedPropertyExpressionAssignment(ctx *ast.ComputedPropertyExpressionAssignmentContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.ComputedPropertyAssignment{
+		Name:       ctx.SingleExpression(0).Accept(v).(elements.Expression),
+		Expression: ctx.SingleExpression(1).Accept(v).(elements.Expression),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitPropertyGetter(ctx *ast.PropertyGetterContext) interface{} {
@@ -916,15 +953,15 @@ func (v *TypeScriptVisitor) VisitPropertySetter(ctx *ast.PropertySetterContext) 
 }
 
 func (v *TypeScriptVisitor) VisitMethodProperty(ctx *ast.MethodPropertyContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.GeneratorMethod().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitPropertyShorthand(ctx *ast.PropertyShorthandContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.IdentifierOrKeyWord().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitRestParameterInObject(ctx *ast.RestParameterInObjectContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.RestParameter().Accept(v)
 }
 
 func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interface{} {
@@ -937,7 +974,7 @@ func (v *TypeScriptVisitor) VisitGetAccessor(ctx *ast.GetAccessorContext) interf
 
 func (v *TypeScriptVisitor) VisitSetAccessor(ctx *ast.SetAccessorContext) interface{} {
 	return &elements.Setter{
-		Name:     ctx.Setter().Accept(v).(string),         // TODO: Change this
+		Name:     ctx.Identifier().Accept(v).(string),         // TODO: Change this
 		Type:     ctx.TypeAnnotation().Accept(v).(string), // TODO: Change this
 		Argument: ctx.Identifier().Accept(v).(string),     // TODO: Absolutely change this
 		Body:     ctx.FunctionBody().Accept(v).(*elements.Block),

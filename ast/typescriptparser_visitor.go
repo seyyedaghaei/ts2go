@@ -1,5 +1,3 @@
-// Code generated from /home/smortezasa/go/src/github.com/seyyedaghaei/ts2go/grammars/TypeScriptParser.g4 by ANTLR 4.9.1. DO NOT EDIT.
-
 package ast // TypeScriptParser
 import "github.com/antlr/antlr4/runtime/Go/antlr"
 
