@@ -155,11 +155,17 @@ type MemberIndex struct {
 }
 
 type As struct {
-	Type string // Change this
+	Type string // TODO: Change this
 	Expression Expression
 }
 
 type CastAs struct {
 	Expression Expression
 	As *As
+}
+
+type New struct {
+	Expression Expression
+	TypeArguments []string // TODO: Change this
+	Arguments []*Argument
 }
