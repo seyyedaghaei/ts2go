@@ -46,7 +46,14 @@ func (v *TypeScriptVisitor) VisitTypeParameterList(ctx *ast.TypeParameterListCon
 }
 
 func (v *TypeScriptVisitor) VisitTypeParameter(ctx *ast.TypeParameterContext) interface{} {
-	return v.VisitChildren(ctx)
+	t := &elements.TypeParameter{}
+	if ctx.TypeParameters() != nil {
+		t.TypeParameters = ctx.TypeParameters().Accept(v).([]*elements.TypeParameter)
+	} else {
+		t.Identifier = ctx.Identifier().Accept(v).(string)
+		t.Constraint = ctx.Identifier().Accept(v).(string)
+	}
+	return t
 }
 
 func (v *TypeScriptVisitor) VisitConstraint(ctx *ast.ConstraintContext) interface{} {
@@ -1165,7 +1172,10 @@ func (v *TypeScriptVisitor) VisitBitXOrExpression(ctx *ast.BitXOrExpressionConte
 }
 
 func (v *TypeScriptVisitor) VisitCastAsExpression(ctx *ast.CastAsExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.CastAs{
+		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
+		As:         ctx.As().Accept(v).(*elements.As),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitSuperExpression(ctx *ast.SuperExpressionContext) interface{} {
@@ -1283,7 +1293,14 @@ func (v *TypeScriptVisitor) VisitVoidExpression(ctx *ast.VoidExpressionContext) 
 }
 
 func (v *TypeScriptVisitor) VisitAsExpression(ctx *ast.AsExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	a := &elements.As{}
+	if ctx.PredefinedType() != nil {
+		a.Type = ctx.PredefinedType().Accept(v).(string) // Change this
+	}
+	if ctx.SingleExpression() != nil {
+		a.Expression = ctx.SingleExpression().Accept(v).(elements.Expression)
+	}
+	return a
 }
 
 func (v *TypeScriptVisitor) VisitArrowFunctionDeclaration(ctx *ast.ArrowFunctionDeclarationContext) interface{} {

@@ -153,3 +153,13 @@ type MemberIndex struct {
 	Expression Expression
 	Index []Expression
 }
+
+type As struct {
+	Type string // Change this
+	Expression Expression
+}
+
+type CastAs struct {
+	Expression Expression
+	As *As
+}
