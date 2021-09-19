@@ -32,6 +32,12 @@ type Argument struct {
 	Identifier string
 }
 
+type MemberDot struct {
+	Expression Expression
+	Identifier string
+	// TODO: nestedTypeGeneric
+}
+
 type Generator struct {
 	Identifier string
 	Parameters []*FormalParameter

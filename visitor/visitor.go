@@ -15,6 +15,22 @@ func (v *TypeScriptVisitor) VisitChildren(node antlr.RuleNode) interface{} {
 	panic(fmt.Errorf("you should implement %s type", reflect.TypeOf(node)))
 }
 
+func (v *TypeScriptVisitor) VisitTerminal(node antlr.TerminalNode) interface{} {
+	symbol := node.GetSymbol()
+	switch symbol.GetTokenType() {
+	case ast.TypeScriptLexerStringLiteral:
+		return v.VisitStringLiteral(node)
+	default:
+		panic(fmt.Errorf("you should implement %d terminal type", symbol.GetTokenType()))
+	}
+	return ""
+}
+
+func (v *TypeScriptVisitor) VisitStringLiteral(node antlr.TerminalNode) interface{} {
+	text := node.GetText()
+	return fmt.Sprintf(`"%s"`, text[1:len(text)-1])
+}
+
 func (v *TypeScriptVisitor) VisitInitializer(ctx *ast.InitializerContext) interface{} {
 	return &elements.Initializer{Expression: ctx.SingleExpression().Accept(v).(elements.Expression)}
 }
@@ -556,7 +572,7 @@ func (v *TypeScriptVisitor) VisitImportStatement(ctx *ast.ImportStatementContext
 func (v *TypeScriptVisitor) VisitFromBlock(ctx *ast.FromBlockContext) interface{} {
 	f := &elements.FromBlock{
 		Alias:   ctx.IdentifierName().GetText(),
-		Package: ctx.StringLiteral().GetText(), // TODO: Change this
+		Package:  ctx.StringLiteral().Accept(v).(string),
 	}
 	if ctx.MultipleImportStatement() != nil {
 		f.Members = ctx.MultipleImportStatement().Accept(v).([]string)
@@ -584,7 +600,7 @@ func (v *TypeScriptVisitor) VisitExportStatement(ctx *ast.ExportStatementContext
 }
 
 func (v *TypeScriptVisitor) VisitVariableStatement(ctx *ast.VariableStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.VariableDeclarationList().Accept(v) // TODO: Absolutely change this
 }
 
 func (v *TypeScriptVisitor) VisitVariableDeclarationList(ctx *ast.VariableDeclarationListContext) interface{} {
@@ -620,7 +636,7 @@ func (v *TypeScriptVisitor) VisitEmptyStatement(_ *ast.EmptyStatementContext) in
 }
 
 func (v *TypeScriptVisitor) VisitExpressionStatement(ctx *ast.ExpressionStatementContext) interface{} {
-	return v.VisitChildren(ctx)
+	return ctx.ExpressionSequence().Accept(v) // TODO: Maybe you should change this
 }
 
 func (v *TypeScriptVisitor) VisitIfStatement(ctx *ast.IfStatementContext) interface{} {
@@ -776,6 +792,7 @@ func (v *TypeScriptVisitor) VisitFunctionDeclaration(ctx *ast.FunctionDeclaratio
 	return &elements.Function{
 		Identifier: ctx.Identifier().GetText(),
 		Signature:  ctx.CallSignature().Accept(v).(*elements.CallSignature),
+		Body: ctx.FunctionBody().Accept(v).(*elements.Block),
 	}
 }
 
@@ -1011,11 +1028,15 @@ func (v *TypeScriptVisitor) VisitArgumentList(ctx *ast.ArgumentListContext) inte
 }
 
 func (v *TypeScriptVisitor) VisitArgument(ctx *ast.ArgumentContext) interface{} {
-	return &elements.Argument{
-		Rest:       ctx.Ellipsis() != nil,
-		Expression: ctx.SingleExpression().Accept(v).(elements.Expression),
-		Identifier: ctx.Identifier().GetText(),
+	args := &elements.Argument{
+		Rest: ctx.Ellipsis() != nil,
 	}
+	if ctx.SingleExpression() != nil {
+		args.Expression = ctx.SingleExpression().Accept(v).(elements.Expression)
+	} else {
+		args.Identifier = ctx.Identifier().GetText()
+	}
+	return args
 }
 
 func (v *TypeScriptVisitor) VisitExpressionSequence(ctx *ast.ExpressionSequenceContext) interface{} {
@@ -1262,7 +1283,10 @@ func (v *TypeScriptVisitor) VisitArrayLiteralExpression(ctx *ast.ArrayLiteralExp
 }
 
 func (v *TypeScriptVisitor) VisitMemberDotExpression(ctx *ast.MemberDotExpressionContext) interface{} {
-	return v.VisitChildren(ctx)
+	return &elements.MemberDot{
+		Expression: ctx.SingleExpression().Accept(v),
+		Identifier: ctx.IdentifierName().Accept(v).(string),
+	}
 }
 
 func (v *TypeScriptVisitor) VisitClassExpression(ctx *ast.ClassExpressionContext) interface{} {
@@ -1353,6 +1377,9 @@ func (v *TypeScriptVisitor) VisitLiteral(ctx *ast.LiteralContext) interface{} {
 	}
 	if ctx.NumericLiteral() != nil {
 		return ctx.NumericLiteral().Accept(v)
+	}
+	if ctx.StringLiteral() != nil {
+		return ctx.StringLiteral().Accept(v) // Absolutely change this
 	}
 	return v.VisitChildren(ctx)
 }
