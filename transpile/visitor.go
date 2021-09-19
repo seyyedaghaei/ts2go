@@ -12,7 +12,6 @@ type ElementsVisitor struct{}
 
 func (v *ElementsVisitor) VisitImport(imp *elements.Import) string {
 	if imp.FromBlock != nil {
-		fmt.Println(imp.FromBlock)
 		return fmt.Sprintf("import %s %s", imp.FromBlock.Alias, imp.FromBlock.Package)
 	}
 	return fmt.Sprintf("import %s %s")
@@ -50,7 +49,6 @@ func (v *ElementsVisitor) VisitArgument(argument *elements.Argument) string {
 func (v *ElementsVisitor) VisitStatements(statements []elements.Statement) string {
 	p := make([]string, len(statements))
 	for i, s := range statements {
-		fmt.Println(reflect.TypeOf(s))
 		p[i] = v.VisitStatement(s)
 	}
 	return strings.Join(p, "\n")
@@ -74,7 +72,6 @@ func (v *ElementsVisitor) VisitStatement(statement elements.Statement) string {
 func (v *ElementsVisitor) VisitExpressions(expressions []elements.Expression) string {
 	p := make([]string, len(expressions))
 	for i, exp := range expressions {
-		fmt.Println("expression ", reflect.TypeOf(exp))
 		p[i] = v.VisitExpression(exp)
 	}
 	return strings.Join(p, "\n")

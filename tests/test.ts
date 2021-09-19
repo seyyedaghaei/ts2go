@@ -5,6 +5,6 @@ function f(s: string) {
 }
 
 function main() {
-    (f)("")
+    (f)("test")
 }
 

@@ -1,9 +1,7 @@
 package tests
 
 import (
-	"fmt"
 	"github.com/seyyedaghaei/ts2go/elements"
-	"github.com/seyyedaghaei/ts2go/transpile"
 	"github.com/seyyedaghaei/ts2go/visitor"
 	"testing"
 )
@@ -13,7 +11,7 @@ func readProgram(file string) *elements.Program {
 }
 
 func TestProgram(t *testing.T) {
-	programCtx := readParser("test.ts").Program()
+	programCtx := readParser("empty.ts").Program()
 	if programCtx == nil {
 		t.Fatal("ProgramContext is nil")
 	}
@@ -21,6 +19,4 @@ func TestProgram(t *testing.T) {
 	if program == nil {
 		t.Fatal("Program is nil")
 	}
-	fmt.Printf(`package main
-%s`, (&transpile.ElementsVisitor{}).VisitProgram(program))
 }
